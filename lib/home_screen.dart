@@ -1,45 +1,31 @@
 import 'package:flutter/material.dart';
 
-import 'state/Login.dart';
+import 'main.dart';
+import 'states/Login.dart';
+import 'utils/globals.dart' as globals;
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() {
-    return _HomeScreenState();
-  }
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-
-  bool _isLoggedIn = false;
-
-  void _logOut() {
-    setState(() {
-      _isLoggedIn = false;
-    });
-  }
+class HomeScreen extends StatelessWidget {
+  final login = getIt.get<Login>();
 
   @override
   Widget build(BuildContext context) {
-
-    _isLoggedIn = Login.of(context) != null ? true : false;
-
-    return Login(
-      isLoggedIn: _isLoggedIn,
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text('Kicker App'),
         ),
         body: Center(
-          child: RaisedButton(
-            onPressed: () {
-              _logOut();
-//              Navigator.pop(context, '/login');
-            },
-            child: Text('Go Back'),
-          ),
-        ),
-      ),
-    );
+          child: StreamBuilder(
+              stream: login.stream$,
+              builder: (BuildContext context, AsyncSnapshot snap) {
+                return RaisedButton(
+                  onPressed: () {
+                    login.logOut();
+                    Navigator.pushReplacementNamed(
+                        context, globals.ROUTE_LOGIN);
+                  },
+                  child: Text('Logout (isLoggedIn: ${snap.data})'),
+                );
+              }),
+        ));
   }
 }
