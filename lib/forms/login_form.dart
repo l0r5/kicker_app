@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import '../main.dart';
+import '../states/Login.dart';
+import '../utils/globals.dart' as globals;
 
 class LoginForm extends StatefulWidget {
   @override
-  LoginFormState createState() {
-    return LoginFormState();
+  _LoginFormState createState() {
+    return _LoginFormState();
   }
 }
 
-class LoginFormState extends State<LoginForm> {
+class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
+  final login = getIt.get<Login>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +39,25 @@ class LoginFormState extends State<LoginForm> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: RaisedButton(
-              onPressed: () {
-                // Validate will return true if the form is valid, or false if
-                // the form is invalid.
-                if (_formKey.currentState.validate()) {
-                  // If the form is valid, we want to show a Snackbar
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text('Processing Data')));
-                }
-              },
-              child: Text('Submit'),
-            ),
-          ),
+            child: StreamBuilder(
+                stream: login.stream$,
+                builder: (BuildContext context, AsyncSnapshot snap) {
+                  return RaisedButton(
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        Scaffold.of(context).showSnackBar(
+                            SnackBar(content: Text('Processing Data')));
+
+                        login.logIn();
+
+                        Navigator.pushReplacementNamed(
+                            context, globals.ROUTE_HOME);
+                      }
+                    },
+                    child: Text('Login (isLoggedIn: ${snap.data})'),
+                  );
+                }),
+          )
         ],
       ),
     );
