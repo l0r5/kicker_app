@@ -46,7 +46,7 @@ class _LoginFormState extends State<LoginForm> {
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         Scaffold.of(context).showSnackBar(
-                            SnackBar(content: Text('Processing Data')));
+                            SnackBar(content: Text('Authenticate...')));
 
                         login.logIn();
 
