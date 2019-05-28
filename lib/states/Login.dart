@@ -15,5 +15,3 @@ class Login {
     _isLoggedIn.add(false);
   }
 }
-
-Login loginService = Login();

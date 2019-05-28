@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kicker_app/states/User.dart';
 
 import '../main.dart';
 import '../states/Login.dart';
@@ -6,6 +7,7 @@ import '../utils/globals.dart' as globals;
 
 class HomeScreen extends StatelessWidget {
   final login = getIt.get<Login>();
+  final user = getIt.get<User>();
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +20,11 @@ class HomeScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 40.0, horizontal: 40),
                 child: Column(children: <Widget>[
+                  StreamBuilder(
+                      stream: user.stream$,
+                      builder: (BuildContext context, AsyncSnapshot snap) {
+                        return Text('Username: ${snap.data}');
+                      }),
                   StreamBuilder(
                       stream: login.stream$,
                       builder: (BuildContext context, AsyncSnapshot snap) {
