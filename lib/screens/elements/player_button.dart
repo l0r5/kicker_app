@@ -5,40 +5,52 @@ import '../../main.dart';
 
 class PlayerButton extends StatefulWidget {
   final playerNumber;
-  final playerName;
+  final availablePlayers;
+  final Function() notifyParent;
 
-  const PlayerButton({this.playerNumber, this.playerName});
+  const PlayerButton(
+      {this.playerNumber, this.availablePlayers, this.notifyParent});
 
   @override
   _PlayerButtonState createState() {
-    return _PlayerButtonState(playerNumber, playerName);
+    return _PlayerButtonState(playerNumber, availablePlayers, notifyParent);
   }
 }
 
 class _PlayerButtonState extends State<PlayerButton> {
+  final Function() notifyParent;
+
   final match = getIt.get<Match>();
   final playerNumber;
-  final playerName;
+  List<String> availablePlayers;
+  String _dropdownValue;
+  List<String> _menuList;
 
-  _PlayerButtonState(this.playerNumber, this.playerName);
-
-  _displaySnackBar(BuildContext context, String msg) {
-    final snackBar = SnackBar(content: Text(msg));
-    Scaffold.of(context).showSnackBar(snackBar);
-  }
-
-  _setButtonText() {
-    return Text('Player$playerNumber');
-  }
+  _PlayerButtonState(
+      this.playerNumber, this.availablePlayers, this.notifyParent);
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      onPressed: () {
-        match.setPlayerName(playerNumber, playerName);
-        _displaySnackBar(context, 'Player$playerNumber $playerName');
+    if (_dropdownValue == null) {
+      _dropdownValue = 'Choose Player';
+      _menuList = [_dropdownValue]..addAll(availablePlayers);
+    }
+
+    return DropdownButton<String>(
+      value: _dropdownValue,
+      onChanged: (String newValue) {
+        setState(() {
+          _dropdownValue = newValue;
+          match.setPlayerName(playerNumber, newValue);
+          widget.notifyParent();
+        });
       },
-      child: _setButtonText(),
+      items: _menuList.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }
