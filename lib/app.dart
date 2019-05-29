@@ -19,10 +19,6 @@ class App extends StatelessWidget {
           globals.ROUTE_SINGLE_MATCH: (context) => SingleMatchScreen(),
         },
         home: Scaffold(
-            body: StreamBuilder(
-                stream: login.stream$,
-                builder: (BuildContext context, AsyncSnapshot snap) {
-                  return snap.data == true ? HomeScreen() : LoginScreen();
-                })));
+            body: (login.isLoggedIn == true ? HomeScreen() : LoginScreen())));
   }
 }

@@ -20,23 +20,15 @@ class HomeScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 40.0, horizontal: 40),
                 child: Column(children: <Widget>[
-                  StreamBuilder(
-                      stream: user.stream$,
-                      builder: (BuildContext context, AsyncSnapshot snap) {
-                        return Text('Username: ${snap.data}');
-                      }),
-                  StreamBuilder(
-                      stream: login.stream$,
-                      builder: (BuildContext context, AsyncSnapshot snap) {
-                        return RaisedButton(
-                          onPressed: () {
-                            login.logOut();
-                            Navigator.pushReplacementNamed(
-                                context, globals.ROUTE_LOGIN);
-                          },
-                          child: Text('Logout (isLoggedIn: ${snap.data})'),
-                        );
-                      }),
+                  Text('Username: ${user.userName}'),
+                  RaisedButton(
+                    onPressed: () {
+                      login.logOut();
+                      Navigator.pushReplacementNamed(
+                          context, globals.ROUTE_LOGIN);
+                    },
+                    child: Text('Logout (isLoggedIn: ${login.isLoggedIn})'),
+                  ),
                   Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: RaisedButton(

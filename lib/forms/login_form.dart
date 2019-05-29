@@ -31,7 +31,6 @@ class _LoginFormState extends State<LoginForm> {
             },
             onSaved: (value) {
               _userName = value;
-
             },
           ),
           TextFormField(
@@ -45,33 +44,22 @@ class _LoginFormState extends State<LoginForm> {
           ),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: StreamBuilder(
-                  stream: login.stream$,
-                  builder: (BuildContext context, AsyncSnapshot snapLogin) {
-                    return StreamBuilder(
-                        stream: user.stream$,
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapUser) {
-                          return RaisedButton(
-                            onPressed: () {
-                              if (_formKey.currentState.validate()) {
-                                Scaffold.of(context).showSnackBar(
-                                    SnackBar(content: Text('Authenticate...')));
+              child: RaisedButton(
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text('Authenticate...')));
 
-                                _formKey.currentState.save();
+                    _formKey.currentState.save();
 
-                                login.logIn();
-                                user.setUsername(_userName);
+                    login.logIn();
+                    user.setUsername(_userName);
 
-                                Navigator.pushReplacementNamed(
-                                    context, globals.ROUTE_HOME);
-                              }
-                            },
-                            child:
-                                Text('Login (isLoggedIn: ${snapLogin.data})'),
-                          );
-                        });
-                  }))
+                    Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
+                  }
+                },
+                child: Text('Login (isLoggedIn: ${login.isLoggedIn})'),
+              ))
         ]));
   }
 }
