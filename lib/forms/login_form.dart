@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kicker_app/states/Community.dart';
 import '../main.dart';
 import '../states/Login.dart';
 import '../states/User.dart';
@@ -15,6 +16,7 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final login = getIt.get<Login>();
   final user = getIt.get<User>();
+  final community = getIt.get<Community>();
   String _userName;
 
   @override
@@ -54,6 +56,7 @@ class _LoginFormState extends State<LoginForm> {
 
                     login.logIn();
                     user.setUsername(_userName);
+                    community.addUser(user.userName);
 
                     Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
                   }

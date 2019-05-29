@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kicker_app/states/User.dart';
-
+import '../states/Community.dart';
+import '../states/User.dart';
 import '../main.dart';
 import '../states/Login.dart';
 import '../utils/globals.dart' as globals;
@@ -8,6 +8,7 @@ import '../utils/globals.dart' as globals;
 class HomeScreen extends StatelessWidget {
   final login = getIt.get<Login>();
   final user = getIt.get<User>();
+  final community = getIt.get<Community>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class HomeScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 40.0, horizontal: 40),
                 child: Column(children: <Widget>[
                   Text('Username: ${user.userName}'),
+                  Text('Community: ${community.users}'),
                   RaisedButton(
                     onPressed: () {
                       login.logOut();
