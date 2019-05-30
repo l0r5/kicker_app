@@ -1,73 +1,117 @@
 import 'package:rxdart/rxdart.dart';
 
 class Match {
-  BehaviorSubject _playerName1 = BehaviorSubject.seeded('not set');
-  BehaviorSubject _playerName2 = BehaviorSubject.seeded('not set');
-  BehaviorSubject _playerName3 = BehaviorSubject.seeded('not set');
-  BehaviorSubject _playerName4 = BehaviorSubject.seeded('not set');
+  BehaviorSubject _player1Name = BehaviorSubject.seeded('not set');
+  BehaviorSubject _player2Name = BehaviorSubject.seeded('not set');
+  BehaviorSubject _player3Name = BehaviorSubject.seeded('not set');
+  BehaviorSubject _player4Name = BehaviorSubject.seeded('not set');
   BehaviorSubject _team1Names = BehaviorSubject.seeded('not set');
   BehaviorSubject _team2Names = BehaviorSubject.seeded('not set');
+  BehaviorSubject _player1Goals = BehaviorSubject.seeded('0');
+  BehaviorSubject _player2Goals = BehaviorSubject.seeded('0');
+  BehaviorSubject _player3Goals = BehaviorSubject.seeded('0');
+  BehaviorSubject _player4Goals = BehaviorSubject.seeded('0');
+  BehaviorSubject _team1Goals = BehaviorSubject.seeded('0');
+  BehaviorSubject _team2Goals = BehaviorSubject.seeded('0');
 
-  String get playerName1 => _playerName1.value;
 
-  String get playerName2 => _playerName2.value;
+  String get player1Name => _player1Name.value;
 
-  String get playerName3 => _playerName3.value;
+  String get player2Name => _player2Name.value;
 
-  String get playerName4 => _playerName4.value;
+  String get player3Name => _player3Name.value;
+
+  String get player4Name => _player4Name.value;
 
   String get team1Names => _team1Names.value;
 
   String get team2Names => _team2Names.value;
 
+  int get player1Goals => int.parse(_player1Goals.value);
+
+  int get player2Goals => int.parse(_player2Goals.value);
+
+  int get player3Goals => int.parse(_player3Goals.value);
+
+  int get player4Goals => int.parse(_player4Goals.value);
+
+  int get team1Goals => int.parse(_team1Goals.value);
+
+  int get team2Goals => int.parse(_team2Goals.value);
+
+
   setTeams() {
-    _team1Names.value = '$playerName1,$playerName2';
-    _team2Names.value = '$playerName3,$playerName4';
+    _team1Names.value = '$player1Name,$player2Name';
+    _team2Names.value = '$player3Name,$player4Name';
   }
 
   getPlayerNameByNumber(int playerNumber) {
     switch (playerNumber) {
       case 1:
-        return playerName1;
+        return player1Name;
       case 2:
-        return playerName2;
+        return player2Name;
       case 3:
-        return playerName3;
+        return player3Name;
       case 4:
-        return playerName4;
+        return player4Name;
     }
   }
 
   setPlayerName(int playerNumber, playerName) {
     switch (playerNumber) {
       case 1:
-        setPlayerName1(playerName);
+        setPlayer1Name(playerName);
         break;
       case 2:
-        setPlayerName2(playerName);
+        setPlayer2Name(playerName);
         break;
       case 3:
-        setPlayerName3(playerName);
+        setPlayer3Name(playerName);
         break;
       case 4:
-        setPlayerName4(playerName);
+        setPlayer4Name(playerName);
         break;
     }
   }
 
-  setPlayerName1(String playerName) {
-    _playerName1.add(playerName);
+  setPlayer1Name(String playerName) {
+    _player1Name.add(playerName);
   }
 
-  setPlayerName2(String playerName) {
-    _playerName2.add(playerName);
+  setPlayer2Name(String playerName) {
+    _player2Name.add(playerName);
   }
 
-  setPlayerName3(String playerName) {
-    _playerName3.add(playerName);
+  setPlayer3Name(String playerName) {
+    _player3Name.add(playerName);
   }
 
-  setPlayerName4(String playerName) {
-    _playerName4.add(playerName);
+  setPlayer4Name(String playerName) {
+    _player4Name.add(playerName);
+  }
+
+  setPlayer1Goals(String value) {
+    _player1Goals.add(value);
+  }
+
+  setPlayer2Goals(String value) {
+    _player2Goals.add(value);
+  }
+
+  setPlayer3Goals(String value) {
+    _player3Goals.add(value);
+  }
+
+  setPlayer4Goals(String value) {
+    _player4Goals.add(value);
+  }
+
+  setTeam1Goals(String value) {
+    _team1Goals.add(value);
+  }
+
+  setTeam2Goals(String value) {
+    _team2Goals.add(value);
   }
 }
