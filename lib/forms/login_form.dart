@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kicker_app/states/Community.dart';
 import '../main.dart';
 import '../states/Login.dart';
+import '../states/User.dart';
 import '../utils/globals.dart' as globals;
 
 class LoginForm extends StatefulWidget {
@@ -13,19 +15,24 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final login = getIt.get<Login>();
+  final user = getIt.get<User>();
+  final community = getIt.get<Community>();
+  String _userName;
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
-      child: Column(
-        children: <Widget>[
+        key: _formKey,
+        child: Column(children: <Widget>[
           TextFormField(
             decoration: InputDecoration(hintText: "Username"),
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please enter some text';
               }
+            },
+            onSaved: (value) {
+              _userName = value;
             },
           ),
           TextFormField(
@@ -38,28 +45,24 @@ class _LoginFormState extends State<LoginForm> {
             },
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: StreamBuilder(
-                stream: login.stream$,
-                builder: (BuildContext context, AsyncSnapshot snap) {
-                  return RaisedButton(
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        Scaffold.of(context).showSnackBar(
-                            SnackBar(content: Text('Processing Data')));
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: RaisedButton(
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text('Authenticate...')));
 
-                        login.logIn();
+                    _formKey.currentState.save();
 
-                        Navigator.pushReplacementNamed(
-                            context, globals.ROUTE_HOME);
-                      }
-                    },
-                    child: Text('Login (isLoggedIn: ${snap.data})'),
-                  );
-                }),
-          )
-        ],
-      ),
-    );
+                    login.logIn();
+                    user.setUsername(_userName);
+                    community.addUser(user.userName);
+
+                    Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
+                  }
+                },
+                child: Text('Login (isLoggedIn: ${login.isLoggedIn})'),
+              ))
+        ]));
   }
 }
