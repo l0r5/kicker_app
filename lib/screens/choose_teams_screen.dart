@@ -3,8 +3,10 @@ import 'package:kicker_app/states/User.dart';
 import 'package:kicker_app/states/Community.dart';
 
 import '../main.dart';
-import 'elements/player_button.dart';
+import 'elements/choose_player_button.dart';
 import '../states/Match.dart';
+import 'match_screen.dart';
+
 
 class ChooseTeamsScreen extends StatefulWidget {
   @override
@@ -17,7 +19,6 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
   final user = getIt.get<User>();
   final match = getIt.get<Match>();
   final community = getIt.get<Community>();
-  List _availablePlayers;
 
   refresh() {
     setState(() {});
@@ -25,8 +26,6 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
         appBar: AppBar(
           title: Text('Choose Teams'),
@@ -39,12 +38,12 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                     Row(children: <Widget>[Text('Username: ${user.userName}')]),
                     Row(
                       children: <Widget>[
-                        PlayerButton(
+                        ChoosePlayerButton(
                           playerNumber: 1,
                           availablePlayers: community.usersList,
                           notifyParent: refresh,
                         ),
-                        PlayerButton(
+                        ChoosePlayerButton(
                           playerNumber: 3,
                           availablePlayers: community.usersList,
                           notifyParent: refresh,
@@ -53,12 +52,12 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                     ),
                     Row(
                       children: <Widget>[
-                        PlayerButton(
+                        ChoosePlayerButton(
                           playerNumber: 2,
                           availablePlayers: community.usersList,
                           notifyParent: refresh,
                         ),
-                        PlayerButton(
+                        ChoosePlayerButton(
                           playerNumber: 4,
                           availablePlayers: community.usersList,
                           notifyParent: refresh,
@@ -72,6 +71,7 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                             match.setTeams();
                             Scaffold.of(context)
                                 .showSnackBar(SnackBar(content: Text('START')));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => MatchScreen()));
                           },
                           child: Text('START'),
                         ),

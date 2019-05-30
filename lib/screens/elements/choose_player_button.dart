@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 import '../../states/Match.dart';
 import '../../main.dart';
 
-class PlayerButton extends StatefulWidget {
+class ChoosePlayerButton extends StatefulWidget {
   final playerNumber;
   final availablePlayers;
   final Function() notifyParent;
 
-  const PlayerButton(
+  const ChoosePlayerButton(
       {this.playerNumber, this.availablePlayers, this.notifyParent});
 
   @override
-  _PlayerButtonState createState() {
-    return _PlayerButtonState(playerNumber, availablePlayers, notifyParent);
+  _ChoosePlayerButtonState createState() {
+    return _ChoosePlayerButtonState(playerNumber, availablePlayers, notifyParent);
   }
 }
 
-class _PlayerButtonState extends State<PlayerButton> {
+class _ChoosePlayerButtonState extends State<ChoosePlayerButton> {
   final Function() notifyParent;
 
   final match = getIt.get<Match>();
@@ -26,7 +26,7 @@ class _PlayerButtonState extends State<PlayerButton> {
   String _dropdownValue;
   List<String> _menuList;
 
-  _PlayerButtonState(
+  _ChoosePlayerButtonState(
       this.playerNumber, this.availablePlayers, this.notifyParent);
 
   @override
