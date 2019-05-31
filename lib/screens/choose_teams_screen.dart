@@ -35,7 +35,7 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                 decoration: BoxDecoration(color: Colors.lightGreen),
                 child: Column(
                   children: <Widget>[
-                    Row(children: <Widget>[Text('Username: ${user.userName}')]),
+                    Row(children: <Widget>[Text('User: ${user.email}')]),
                     Row(
                       children: <Widget>[
                         ChoosePlayerButton(

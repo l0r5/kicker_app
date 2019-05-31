@@ -45,6 +45,21 @@ class Match {
     _team2Names.value = '$player3Name,$player4Name';
   }
 
+  reset() {
+    _player1Name = BehaviorSubject.seeded('not set');
+    _player2Name = BehaviorSubject.seeded('not set');
+    _player3Name = BehaviorSubject.seeded('not set');
+    _player4Name = BehaviorSubject.seeded('not set');
+    _team1Names = BehaviorSubject.seeded('not set');
+    _team2Names = BehaviorSubject.seeded('not set');
+    _player1Goals = BehaviorSubject.seeded('0');
+    _player2Goals = BehaviorSubject.seeded('0');
+    _player3Goals = BehaviorSubject.seeded('0');
+    _player4Goals = BehaviorSubject.seeded('0');
+    _team1Goals = BehaviorSubject.seeded('0');
+    _team2Goals = BehaviorSubject.seeded('0');
+  }
+
   getPlayerNameByNumber(int playerNumber) {
     switch (playerNumber) {
       case 1:

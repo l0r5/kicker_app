@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
 import '../states/Match.dart';
 import '../main.dart';
 import 'elements/player_controls.dart';
+import 'result_screen.dart';
 
 class MatchScreen extends StatefulWidget {
   @override
@@ -65,8 +65,7 @@ class _MatchScreenState extends State<MatchScreen> {
                 children: <Widget>[
                   RaisedButton(
                     onPressed: () {
-                      Scaffold.of(context)
-                          .showSnackBar(SnackBar(content: Text('FINISH')));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ResultScreen()));
                     },
                     child: Text('FINISH'),
                   ),
