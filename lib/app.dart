@@ -4,7 +4,7 @@ import 'main.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/choose_teams_screen.dart';
-import 'states/Login.dart';
+import 'states/User.dart';
 import 'utils/globals.dart' as globals;
 
 class App extends StatelessWidget {
@@ -12,7 +12,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final login = getIt.get<Login>();
+    final user = getIt.get<User>();
 
     return MaterialApp(
         routes: <String, WidgetBuilder>{
@@ -21,6 +21,6 @@ class App extends StatelessWidget {
           globals.ROUTE_SINGLE_MATCH: (context) => ChooseTeamsScreen(),
         },
         home: Scaffold(
-            body: (login.isLoggedIn == true ? HomeScreen() : LoginScreen())));
+            body: (user.isLoggedIn == true ? HomeScreen() : LoginScreen())));
   }
 }

@@ -15,7 +15,6 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
-  final login = getIt.get<Login>();
   final user = getIt.get<User>();
   final community = getIt.get<Community>();
   final BaseAuth auth = getIt.get<Auth>();
@@ -28,12 +27,12 @@ class _RegisterFormState extends State<RegisterForm> {
   void _register() async {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Register...')));
     await auth.signUp(_email, _password).then((userId) {
-      print('Signed in: $userId');
+      print('Signed up: $userId');
       auth.sendEmailVerification();
       _showVerifyEmailSentDialog();
       user.setEmail(_email);
       community.addUser(user.email);
-      login.logIn();
+      user.setIsLoggedIn(true);
     });
   }
 

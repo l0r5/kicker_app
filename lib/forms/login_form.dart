@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kicker_app/screens/register_screen.dart';
+import 'package:kicker_app/services/authentication.dart';
 import 'package:kicker_app/states/Community.dart';
 import '../main.dart';
-import '../states/Login.dart';
 import '../states/User.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../utils/globals.dart' as globals;
 
 class LoginForm extends StatefulWidget {
-
   @override
   _LoginFormState createState() {
     return _LoginFormState();
@@ -17,32 +15,21 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-  final login = getIt.get<Login>();
   final user = getIt.get<User>();
   final community = getIt.get<Community>();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  String _userName;
+  final BaseAuth auth = getIt.get<Auth>();
+  String _email;
   String _password;
 
-  _logIn() {
-    Future<FirebaseUser> _handleSignIn() async {
-//      final AuthCredential credential = GoogleAuthProvider.getCredential(
-//        accessToken: googleAuth.accessToken,
-//        idToken: googleAuth.idToken,
-//      );
-//
-//      final FirebaseUser user = await _auth.signInWithCredential(credential);
-//      print("signed in " + user.displayName);
-//      return user;
-//    }
-
-      final FirebaseUser user = await _auth.createUserWithEmailAndPassword(
-        email: _userName,
-        password: _password,
-      );
-
-      login.logIn();
-    }
+  _logIn() async {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Logging in...')));
+    await auth.signIn(_email, _password).then((userId) {
+      print('Signed in: $userId');
+      user.setEmail(_email);
+      community.addUser(user.email);
+      Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
+      user.setIsLoggedIn(true);
+    });
   }
 
   @override
@@ -58,7 +45,7 @@ class _LoginFormState extends State<LoginForm> {
               }
             },
             onSaved: (value) {
-              _userName = value;
+              _email = value;
             },
           ),
           TextFormField(
@@ -82,21 +69,12 @@ class _LoginFormState extends State<LoginForm> {
                 color: Colors.blue,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    Scaffold.of(context).showSnackBar(
-                        SnackBar(content: Text('Authenticate...')));
-
                     _formKey.currentState.save();
-
                     _logIn();
-
-                    user.setEmail(_userName);
-                    community.addUser(user.email);
-
-                    Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
                   }
                 },
                 child: Text(
-                  'Login (isLoggedIn: ${login.isLoggedIn})',
+                  'Login (isLoggedIn: ${user.isLoggedIn})',
                   style: new TextStyle(fontSize: 20.0, color: Colors.white),
                 ),
               )),
@@ -108,8 +86,10 @@ class _LoginFormState extends State<LoginForm> {
                 height: 42.0,
                 color: Colors.blue,
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => RegisterScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RegisterScreen()));
                 },
                 child: Text(
                   'Register',
