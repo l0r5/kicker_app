@@ -9,7 +9,6 @@ class ResultScreen extends StatelessWidget {
 
   _saveMatch() {
     Firestore.instance.collection('matches').document().setData({
-      'id': '1',
       'team1Names': match.team1Names,
       'team2Names': match.team2Names,
       'team1Goals': match.team1Goals,
