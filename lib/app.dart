@@ -8,10 +8,12 @@ import 'states/Login.dart';
 import 'utils/globals.dart' as globals;
 
 class App extends StatelessWidget {
-  final login = getIt.get<Login>();
 
   @override
   Widget build(BuildContext context) {
+
+    final login = getIt.get<Login>();
+
     return MaterialApp(
         routes: <String, WidgetBuilder>{
           globals.ROUTE_HOME: (context) => HomeScreen(),

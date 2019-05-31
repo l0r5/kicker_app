@@ -1,11 +1,11 @@
 import 'package:rxdart/rxdart.dart';
 
 class User {
-  BehaviorSubject _userName = BehaviorSubject.seeded('not set');
+  BehaviorSubject _email = BehaviorSubject.seeded('not set');
 
-  String get userName => _userName.value;
+  String get email => _email.value;
 
-  setUsername(String userName){
-    _userName.add(userName);
+  setEmail(String userName){
+    _email.add(userName);
   }
 }
