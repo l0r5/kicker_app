@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../states/Match.dart';
 import '../main.dart';
 import 'elements/player_controls.dart';
@@ -66,7 +65,7 @@ class _MatchScreenState extends State<MatchScreen> {
                 children: <Widget>[
                   RaisedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ResultScreen()));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ResultScreen()));
                     },
                     child: Text('FINISH'),
                   ),
