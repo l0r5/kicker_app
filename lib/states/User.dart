@@ -8,8 +8,8 @@ class User {
 
   bool get isLoggedIn => _isLoggedIn.value;
 
-  setEmail(String userName) {
-    _email.add(userName);
+  setEmail(String email) {
+    _email.add(email);
   }
 
   setIsLoggedIn(bool value) {

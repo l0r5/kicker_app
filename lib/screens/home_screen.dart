@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 40.0, horizontal: 40),
                 child: Column(children: <Widget>[
-                  Text('Username: ${user.email}'),
+                  Text('Email: ${user.email}'),
                   Text('Community: ${community.users}'),
                   RaisedButton(
                     onPressed: () {

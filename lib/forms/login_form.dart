@@ -18,18 +18,35 @@ class _LoginFormState extends State<LoginForm> {
   final user = getIt.get<User>();
   final community = getIt.get<Community>();
   final BaseAuth auth = getIt.get<Auth>();
+  String _validationMessage = '';
   String _email;
   String _password;
 
   _logIn() async {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Logging in...')));
-    await auth.signIn(_email, _password).then((userId) {
-      print('Signed in: $userId');
-      user.setEmail(_email);
-      community.addUser(user.email);
-      Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
-      user.setIsLoggedIn(true);
-    });
+    try {
+      await auth.signIn(_email, _password).then((userId) {
+        print('Signed in: $userId');
+        user.setEmail(_email);
+        community.addUser(user.email);
+        Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
+        user.setIsLoggedIn(true);
+      });
+    } on Exception catch (error) {
+      if (error.toString().contains('ERROR_INVALID_EMAIL')) {
+        setState(() {
+          _validationMessage = 'Invalid Email';
+        });
+      } else if (error.toString().contains('ERROR_WRONG_PASSWORD')) {
+        setState(() {
+          _validationMessage = 'Wrong Password';
+        });
+      } else {
+        setState(() {
+          _validationMessage = '$error';
+        });
+      }
+    }
   }
 
   @override
@@ -38,7 +55,7 @@ class _LoginFormState extends State<LoginForm> {
         key: _formKey,
         child: Column(children: <Widget>[
           TextFormField(
-            decoration: InputDecoration(hintText: "Username"),
+            decoration: InputDecoration(hintText: "Email"),
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please enter some text';
@@ -59,6 +76,10 @@ class _LoginFormState extends State<LoginForm> {
             onSaved: (value) {
               _password = value;
             },
+          ),
+          Text(
+            _validationMessage,
+            style: TextStyle(color: Colors.red),
           ),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),

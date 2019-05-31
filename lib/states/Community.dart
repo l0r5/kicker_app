@@ -11,15 +11,15 @@ class Community {
     return userString.split(',');
   }
 
-  addUser(String userName) {
+  addUser(String email) {
     List users = _users.value.split(',');
-    if (!users.contains(userName)) {
-      users.add(userName);
+    if (!users.contains(email)) {
+      users.add(email);
       _users
           .add(users.join(",").replaceAll('[', '').replaceAll(']', '').trim());
-      print('Added user: $userName, New users list: ${_users.value}');
+      print('Added user: $email, New users list: ${_users.value}');
     } else {
-      print('User $userName is already in the list of users: ${_users.value}');
+      print('User $email is already in the list of users: ${_users.value}');
     }
   }
 }
