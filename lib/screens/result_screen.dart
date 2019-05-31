@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../states/Match.dart';
 import '../main.dart';
 
@@ -8,6 +8,22 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Firestore.instance.collection('matches').document().setData({
+      'id': '1',
+      'team1Names': match.team1Names,
+      'team2Names': match.team2Names,
+      'team1Goals': match.team1Goals,
+      'team2Goals': match.team2Goals,
+      'player1Name': match.player1Name,
+      'player2Name': match.player2Name,
+      'player3Name': match.player3Name,
+      'player4Name': match.player4Name,
+      'player1Goals': match.player1Goals,
+      'player2Goals': match.player2Goals,
+      'player3Goals': match.player3Goals,
+      'player4Goals': match.player4Goals,
+    });
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Result'),
@@ -42,7 +58,6 @@ class ResultScreen extends StatelessWidget {
                   'Player4: ${match.getPlayerNameByNumber(4)}, Goals: ${match.player4Goals}'),
             ],
           )
-
         ]));
   }
 }
