@@ -1,8 +1,7 @@
 import 'package:rxdart/rxdart.dart';
 
 class Community {
-  BehaviorSubject _users = BehaviorSubject.seeded(
-      'Timo, Jonas, Marco, Sven, Reto, Harry, Lars'.trim());
+  BehaviorSubject _users = BehaviorSubject.seeded('');
 
   String get users => _users.value;
 

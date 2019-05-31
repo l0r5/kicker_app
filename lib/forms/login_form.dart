@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kicker_app/screens/register_screen.dart';
-import 'package:kicker_app/services/authentication.dart';
+import 'package:kicker_app/services/authentication_service.dart';
 import 'package:kicker_app/states/Community.dart';
 import '../main.dart';
 import '../states/User.dart';
@@ -17,7 +17,7 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final user = getIt.get<User>();
   final community = getIt.get<Community>();
-  final BaseAuth auth = getIt.get<Auth>();
+  final BaseAuthenticationService auth = getIt.get<AuthenticationService>();
   String _validationMessage = '';
   String _email;
   String _password;
