@@ -40,12 +40,12 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                       children: <Widget>[
                         ChoosePlayerButton(
                           playerNumber: 1,
-                          availablePlayers: lobby.usersList,
+                          availablePlayers: lobby.usersOnlineList,
                           notifyParent: refresh,
                         ),
                         ChoosePlayerButton(
                           playerNumber: 3,
-                          availablePlayers: lobby.usersList,
+                          availablePlayers: lobby.usersOnlineList,
                           notifyParent: refresh,
                         )
                       ],
@@ -54,12 +54,12 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                       children: <Widget>[
                         ChoosePlayerButton(
                           playerNumber: 2,
-                          availablePlayers: lobby.usersList,
+                          availablePlayers: lobby.usersOnlineList,
                           notifyParent: refresh,
                         ),
                         ChoosePlayerButton(
                           playerNumber: 4,
-                          availablePlayers: lobby.usersList,
+                          availablePlayers: lobby.usersOnlineList,
                           notifyParent: refresh,
                         ),
                       ],

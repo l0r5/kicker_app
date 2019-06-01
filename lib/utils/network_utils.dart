@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class NetworkUtil {
-  static NetworkUtil _instance = new NetworkUtil.internal();
+class NetworkUtils {
+  static NetworkUtils _instance = new NetworkUtils.internal();
 
-  NetworkUtil.internal();
+  NetworkUtils.internal();
 
-  factory NetworkUtil() => _instance;
+  factory NetworkUtils() => _instance;
 
   Future<dynamic> get(String url, {Map<String, String> headers, encoding}) {
     return http.get(url, headers: headers).then((http.Response response) {

@@ -17,6 +17,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final user = getIt.get<User>();
+  final lobby = getIt.get<Lobby>();
 
   final BaseAuthenticationService authenticationService =
       getIt.get<AuthenticationService>();
@@ -31,9 +32,9 @@ class _LoginFormState extends State<LoginForm> {
       await authenticationService.signIn(_email, _password).then((userId) {
         print('Signed in: $userId');
         user.setEmail(_email);
-        Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
         user.setIsLoggedIn(true);
-        _addUserToOnlineUsers();
+        _updateLobby();
+        Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
       });
     } on Exception catch (error) {
       if (error.toString().contains('ERROR_INVALID_EMAIL')) {
@@ -52,8 +53,12 @@ class _LoginFormState extends State<LoginForm> {
     }
   }
 
-  _addUserToOnlineUsers()  {
-    lobbyService.addOnlineUser(user.email);
+  _updateLobby() async {
+    await lobbyService.addOnlineUser(user.email).then((onlineUsers) {
+      setState(() {
+        lobby.setUsersOnline(onlineUsers);
+      });
+    });
   }
 
   @override
@@ -106,7 +111,7 @@ class _LoginFormState extends State<LoginForm> {
                   }
                 },
                 child: Text(
-                  'Login (isLoggedIn: ${user.isLoggedIn})',
+                  'Login',
                   style: new TextStyle(fontSize: 20.0, color: Colors.white),
                 ),
               )),

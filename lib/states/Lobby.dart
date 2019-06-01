@@ -1,24 +1,34 @@
 import 'package:rxdart/rxdart.dart';
 
 class Lobby {
-  BehaviorSubject _usersOnline = BehaviorSubject.seeded('DummyUser');
+  BehaviorSubject _usersOnline = BehaviorSubject.seeded(null);
 
   String get usersOnline => _usersOnline.value;
 
-  List<String> get usersList {
+  List<String> get usersOnlineList {
+    if (usersOnline == null) {
+      return [];
+    }
     String userString = _usersOnline.value;
-    return userString.split(',');
+    if (userString.contains(',')) {
+      return userString.split(',');
+    } else {
+      return [userString];
+    }
   }
 
-  addUser(String email) {
-    List users = _usersOnline.value.split(',');
-    if (!users.contains(email)) {
-      users.add(email);
-      _usersOnline
-          .add(users.join(",").replaceAll('[', '').replaceAll(']', '').trim());
-      print('Added user: $email, New users list: ${_usersOnline.value}');
+  setUsersOnline(List<String> usersOnline) {
+    String resultString = '';
+    usersOnline.forEach((user) => resultString += '$user,');
+    resultString = resultString.substring(0, resultString.length - 1);
+    if (_usersOnline.value == null) {
+      _usersOnline = BehaviorSubject.seeded(resultString);
     } else {
-      print('User $email is already in the list of users: ${_usersOnline.value}');
+      usersOnline.add(resultString);
     }
+  }
+
+  reset() {
+    _usersOnline = BehaviorSubject.seeded(null);
   }
 }

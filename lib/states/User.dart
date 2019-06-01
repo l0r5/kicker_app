@@ -15,4 +15,9 @@ class User {
   setIsLoggedIn(bool value) {
     _isLoggedIn.add(value);
   }
+
+  reset() {
+    _email = BehaviorSubject.seeded('not set');
+    _isLoggedIn = BehaviorSubject.seeded(false);
+  }
 }

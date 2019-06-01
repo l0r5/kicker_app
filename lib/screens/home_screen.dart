@@ -22,11 +22,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _updateLobby() async {
     await lobbyService.getOnlineUsers().then((onlineUsers) {
-      print(onlineUsers.toString());
-      onlineUsers.forEach((user) {
-        lobby.addUser(user);
-        setState(() {});
-      });
+      lobby.setUsersOnline(onlineUsers);
+      print('Local Lobby Online Users: ${lobby.usersOnlineList}');
+      setState(() {
+        });
+    });
+  }
+
+  _quitLobbySession() async {
+    await lobbyService.removeOnlineUser(user.email).then((onlineUsers) {
+      print('Local Lobby Online Users: ${lobby.usersOnlineList}');
     });
   }
 
@@ -34,6 +39,12 @@ class _HomeScreenState extends State<HomeScreen> {
   initState() {
     super.initState();
     _updateLobby();
+  }
+
+  _resetGlobalStates() {
+    lobby.reset();
+    user.reset();
+    print('Global States resetted.');
   }
 
   @override
@@ -48,15 +59,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     const EdgeInsets.symmetric(vertical: 40.0, horizontal: 40),
                 child: Column(children: <Widget>[
                   Text('Email: ${user.email}'),
-                  Text('Community: ${lobby.usersOnline}'),
+                  Text('Lobby: ${lobby.usersOnlineList}'),
                   RaisedButton(
                     onPressed: () {
+                      print('Logging out ${user.email}');
                       authenticationService.signOut();
-                      user.setIsLoggedIn(false);
+                      _quitLobbySession();
+                      _resetGlobalStates();
                       Navigator.pushReplacementNamed(
                           context, globals.ROUTE_LOGIN);
                     },
-                    child: Text('Logout (isLoggedIn: ${user.isLoggedIn})'),
+                    child: Text('Logout'),
                   ),
                   Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),

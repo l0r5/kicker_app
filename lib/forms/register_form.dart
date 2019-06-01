@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kicker_app/services/authentication_service.dart';
+import 'package:kicker_app/services/lobby_service.dart';
 import 'package:kicker_app/states/Lobby.dart';
 import '../main.dart';
-import '../states/Login.dart';
 import '../states/User.dart';
 import '../utils/globals_utils.dart' as globals;
 
@@ -18,6 +18,7 @@ class _RegisterFormState extends State<RegisterForm> {
   final user = getIt.get<User>();
   final lobby = getIt.get<Lobby>();
   final BaseAuthenticationService auth = getIt.get<AuthenticationService>();
+  final BaseLobbyService lobbyService = getIt.get<LobbyService>();
 
   String _email;
   String _password;
@@ -31,8 +32,16 @@ class _RegisterFormState extends State<RegisterForm> {
       auth.sendEmailVerification();
       _showVerifyEmailSentDialog();
       user.setEmail(_email);
-      lobby.addUser(user.email);
       user.setIsLoggedIn(true);
+      _updateLobby();
+    });
+  }
+
+  _updateLobby() async {
+    await lobbyService.addOnlineUser(user.email).then((onlineUsers) {
+      setState(() {
+        lobby.setUsersOnline(onlineUsers);
+      });
     });
   }
 
