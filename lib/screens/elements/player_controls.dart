@@ -12,24 +12,18 @@ class PlayerControls extends StatefulWidget {
 
   @override
   _PlayerControlsState createState() {
-    return _PlayerControlsState(playerNumber, playerName, notifyParent);
+    return _PlayerControlsState();
   }
 }
 
 class _PlayerControlsState extends State<PlayerControls> {
-  final Function() notifyParent;
-
   final match = getIt.get<Match>();
 
-  final playerNumber;
-  final playerName;
-
-  _PlayerControlsState(this.playerNumber, this.playerName, this.notifyParent);
 
   _addGoalToPlayer() {
     int playerGoals;
     int teamGoals;
-    switch (playerNumber) {
+    switch (widget.playerNumber) {
       case 1:
         playerGoals = match.player1Goals;
         teamGoals = match.team1Goals;
@@ -68,7 +62,7 @@ class _PlayerControlsState extends State<PlayerControls> {
   _removeGoalFromPlayer() {
     int playerGoals;
     int teamGoals;
-    switch (playerNumber) {
+    switch (widget.playerNumber) {
       case 1:
         playerGoals = match.player1Goals;
         teamGoals = match.team1Goals;
@@ -123,13 +117,13 @@ class _PlayerControlsState extends State<PlayerControls> {
   _addOwnGoal() {
     int teamGoals;
 
-    if (playerNumber == 1 || playerNumber == 2) {
+    if (widget.playerNumber == 1 || widget.playerNumber == 2) {
       teamGoals = match.team2Goals;
       teamGoals++;
       match.setTeam2Goals(teamGoals.toString());
     }
 
-    if (playerNumber == 3 || playerNumber == 4) {
+    if (widget.playerNumber == 3 || widget.playerNumber == 4) {
       teamGoals = match.team1Goals;
       teamGoals++;
       match.setTeam1Goals(teamGoals.toString());
@@ -147,7 +141,7 @@ class _PlayerControlsState extends State<PlayerControls> {
               widget.notifyParent();
               Scaffold.of(context).showSnackBar(SnackBar(
                   content:
-                      Text('Goal! +1 for Player$playerNumber: $playerName')));
+                      Text('Goal! +1 for Player${widget.playerNumber}: ${widget.playerName}')));
             },
             child: Text('+'),
           ),
@@ -155,7 +149,7 @@ class _PlayerControlsState extends State<PlayerControls> {
       ),
       Row(
         children: <Widget>[
-          Text('$playerName'),
+          Text('${widget.playerName}'),
         ],
       ),
       Row(
@@ -166,7 +160,7 @@ class _PlayerControlsState extends State<PlayerControls> {
               widget.notifyParent();
               Scaffold.of(context).showSnackBar(SnackBar(
                   content: Text(
-                      'Remove one Goal from Player$playerNumber: $playerName')));
+                      'Remove one Goal from Player${widget.playerNumber}: ${widget.playerName}')));
             },
             child: Text('-'),
           ),
@@ -176,7 +170,7 @@ class _PlayerControlsState extends State<PlayerControls> {
               widget.notifyParent();
               Scaffold.of(context).showSnackBar(SnackBar(
                   content:
-                      Text('Own Goal for Player$playerNumber: $playerName')));
+                      Text('Own Goal for Player${widget.playerNumber}: ${widget.playerName}')));
             },
             child: Text('ET'),
           ),

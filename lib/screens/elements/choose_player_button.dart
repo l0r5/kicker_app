@@ -13,27 +13,21 @@ class ChoosePlayerButton extends StatefulWidget {
 
   @override
   _ChoosePlayerButtonState createState() {
-    return _ChoosePlayerButtonState(playerNumber, availablePlayers, notifyParent);
+    return _ChoosePlayerButtonState();
   }
 }
 
 class _ChoosePlayerButtonState extends State<ChoosePlayerButton> {
-  final Function() notifyParent;
 
   final match = getIt.get<Match>();
-  final playerNumber;
-  List<String> availablePlayers;
   String _dropdownValue;
   List<String> _menuList;
-
-  _ChoosePlayerButtonState(
-      this.playerNumber, this.availablePlayers, this.notifyParent);
 
   @override
   Widget build(BuildContext context) {
     if (_dropdownValue == null) {
       _dropdownValue = 'Choose Player';
-      _menuList = [_dropdownValue]..addAll(availablePlayers);
+      _menuList = [_dropdownValue]..addAll(widget.availablePlayers);
     }
 
     return DropdownButton<String>(
@@ -41,7 +35,7 @@ class _ChoosePlayerButtonState extends State<ChoosePlayerButton> {
       onChanged: (String newValue) {
         setState(() {
           _dropdownValue = newValue;
-          match.setPlayerName(playerNumber, newValue);
+          match.setPlayerName(widget.playerNumber, newValue);
           widget.notifyParent();
         });
       },

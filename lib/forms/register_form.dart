@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kicker_app/services/authentication_service.dart';
-import 'package:kicker_app/states/Community.dart';
+import 'package:kicker_app/states/Lobby.dart';
 import '../main.dart';
 import '../states/Login.dart';
 import '../states/User.dart';
-import '../utils/globals.dart' as globals;
+import '../utils/globals_utils.dart' as globals;
 
 class RegisterForm extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   final user = getIt.get<User>();
-  final community = getIt.get<Community>();
+  final lobby = getIt.get<Lobby>();
   final BaseAuthenticationService auth = getIt.get<AuthenticationService>();
 
   String _email;
@@ -31,7 +31,7 @@ class _RegisterFormState extends State<RegisterForm> {
       auth.sendEmailVerification();
       _showVerifyEmailSentDialog();
       user.setEmail(_email);
-      community.addUser(user.email);
+      lobby.addUser(user.email);
       user.setIsLoggedIn(true);
     });
   }

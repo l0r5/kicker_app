@@ -5,7 +5,7 @@ import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/choose_teams_screen.dart';
 import 'states/User.dart';
-import 'utils/globals.dart' as globals;
+import 'utils/globals_utils.dart' as globals;
 
 class App extends StatelessWidget {
 

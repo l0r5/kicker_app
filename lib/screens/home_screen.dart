@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kicker_app/services/authentication_service.dart';
-import 'package:kicker_app/services/community_service.dart';
-import '../states/Community.dart';
+import 'package:kicker_app/services/lobby_service.dart';
+import '../states/Lobby.dart';
 import '../states/User.dart';
 import '../main.dart';
-import '../utils/globals.dart' as globals;
+import '../utils/globals_utils.dart' as globals;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,24 +15,29 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final user = getIt.get<User>();
-  final community = getIt.get<Community>();
+  final lobby = getIt.get<Lobby>();
   final BaseAuthenticationService authenticationService =
       getIt.get<AuthenticationService>();
-  final CommunityService communityService = getIt.get<CommunityService>();
+  final LobbyService lobbyService = getIt.get<LobbyService>();
 
-  _updateCommunity() async {
-    await communityService
-        .getOnlineUsers()
-        .then((updatedOnlineUsers) => updatedOnlineUsers.forEach((user) {
-              community.addUser(user);
-              setState(() {});
-            }));
+  _updateLobby() async {
+    await lobbyService.getOnlineUsers().then((onlineUsers) {
+      print(onlineUsers.toString());
+      onlineUsers.forEach((user) {
+        lobby.addUser(user);
+        setState(() {});
+      });
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    _updateLobby();
   }
 
   @override
   Widget build(BuildContext context) {
-    _updateCommunity();
-
     return Scaffold(
         appBar: AppBar(
           title: Text('Kicker App'),
@@ -43,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const EdgeInsets.symmetric(vertical: 40.0, horizontal: 40),
                 child: Column(children: <Widget>[
                   Text('Email: ${user.email}'),
-                  Text('Community: ${community.users}'),
+                  Text('Community: ${lobby.usersOnline}'),
                   RaisedButton(
                     onPressed: () {
                       authenticationService.signOut();
@@ -53,6 +58,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: Text('Logout (isLoggedIn: ${user.isLoggedIn})'),
                   ),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: RaisedButton(
+                        onPressed: () {
+                          _updateLobby();
+                        },
+                        child: Text('Refresh Lobby'),
+                      )),
                   Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: RaisedButton(
