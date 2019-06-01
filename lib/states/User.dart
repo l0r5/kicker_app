@@ -1,12 +1,19 @@
 import 'package:rxdart/rxdart.dart';
 
 class User {
+
+  BehaviorSubject _uid = BehaviorSubject.seeded(null);
   BehaviorSubject _email = BehaviorSubject.seeded('not set');
   BehaviorSubject _isLoggedIn = BehaviorSubject.seeded(false);
 
   String get email => _email.value;
+  String get uid => _uid.value;
 
   bool get isLoggedIn => _isLoggedIn.value;
+
+  setUid(String uid) {
+    _uid.add(uid);
+  }
 
   setEmail(String email) {
     _email.add(email);

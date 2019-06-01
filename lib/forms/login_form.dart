@@ -31,6 +31,7 @@ class _LoginFormState extends State<LoginForm> {
     try {
       await authenticationService.signIn(_email, _password).then((userId) {
         print('Signed in: $userId');
+        user.setUid(userId);
         user.setEmail(_email);
         user.setIsLoggedIn(true);
         _updateLobby();
