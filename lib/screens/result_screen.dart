@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../states/Match.dart';
 import '../main.dart';
-import '../utils/globals.dart' as globals;
+import '../utils/globals_utils.dart' as globals;
 
 class ResultScreen extends StatelessWidget {
   final match = getIt.get<Match>();

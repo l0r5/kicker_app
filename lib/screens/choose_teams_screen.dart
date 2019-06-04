@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kicker_app/states/User.dart';
-import 'package:kicker_app/states/Community.dart';
+import 'package:kicker_app/states/Lobby.dart';
 
 import '../main.dart';
 import 'elements/choose_player_button.dart';
@@ -18,7 +18,7 @@ class ChooseTeamsScreen extends StatefulWidget {
 class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
   final user = getIt.get<User>();
   final match = getIt.get<Match>();
-  final community = getIt.get<Community>();
+  final lobby = getIt.get<Lobby>();
 
   refresh() {
     setState(() {});
@@ -40,12 +40,12 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                       children: <Widget>[
                         ChoosePlayerButton(
                           playerNumber: 1,
-                          availablePlayers: community.usersList,
+                          availablePlayers: lobby.usersOnlineList,
                           notifyParent: refresh,
                         ),
                         ChoosePlayerButton(
                           playerNumber: 3,
-                          availablePlayers: community.usersList,
+                          availablePlayers: lobby.usersOnlineList,
                           notifyParent: refresh,
                         )
                       ],
@@ -54,12 +54,12 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                       children: <Widget>[
                         ChoosePlayerButton(
                           playerNumber: 2,
-                          availablePlayers: community.usersList,
+                          availablePlayers: lobby.usersOnlineList,
                           notifyParent: refresh,
                         ),
                         ChoosePlayerButton(
                           playerNumber: 4,
-                          availablePlayers: community.usersList,
+                          availablePlayers: lobby.usersOnlineList,
                           notifyParent: refresh,
                         ),
                       ],

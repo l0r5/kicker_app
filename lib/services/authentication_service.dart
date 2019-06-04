@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 
-abstract class BaseAuth {
+abstract class BaseAuthenticationService {
   Future<String> signIn(String email, String password);
 
   Future<String> signUp(String email, String password);
@@ -15,7 +15,7 @@ abstract class BaseAuth {
   Future<bool> isEmailVerified();
 }
 
-class Auth implements BaseAuth {
+class AuthenticationService implements BaseAuthenticationService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   Future<String> signIn(String email, String password) async {

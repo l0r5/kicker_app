@@ -1,14 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:kicker_app/services/authentication.dart';
-import '../states/Community.dart';
+import 'package:kicker_app/services/authentication_service.dart';
+import 'package:kicker_app/services/lobby_service.dart';
+import '../states/Lobby.dart';
 import '../states/User.dart';
 import '../main.dart';
-import '../utils/globals.dart' as globals;
+import '../utils/globals_utils.dart' as globals;
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() {
+    return _HomeScreenState();
+  }
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final user = getIt.get<User>();
-  final community = getIt.get<Community>();
-  final BaseAuth auth = getIt.get<Auth>();
+  final lobby = getIt.get<Lobby>();
+  final BaseAuthenticationService authenticationService =
+      getIt.get<AuthenticationService>();
+  final LobbyService lobbyService = getIt.get<LobbyService>();
+
+  _updateLobby() async {
+    await lobbyService.getOnlineUsers().then((onlineUsers) {
+      lobby.setUsersOnline(onlineUsers);
+      print('Local Lobby Online Users: ${lobby.usersOnlineList}');
+      setState(() {
+        });
+    });
+  }
+
+  _quitLobbySession() async {
+    await lobbyService.removeOnlineUser(user.email).then((onlineUsers) {
+      print('Local Lobby Online Users: ${lobby.usersOnlineList}');
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    _updateLobby();
+  }
+
+  _resetGlobalStates() {
+    lobby.reset();
+    user.reset();
+    print('Global States resetted.');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +59,26 @@ class HomeScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 40.0, horizontal: 40),
                 child: Column(children: <Widget>[
                   Text('Email: ${user.email}'),
-                  Text('Community: ${community.users}'),
+                  Text('Lobby: ${lobby.usersOnlineList}'),
                   RaisedButton(
                     onPressed: () {
-                      auth.signOut();
-                      user.setIsLoggedIn(false);
+                      print('Logging out ${user.email}');
+                      authenticationService.signOut();
+                      _quitLobbySession();
+                      _resetGlobalStates();
                       Navigator.pushReplacementNamed(
                           context, globals.ROUTE_LOGIN);
                     },
-                    child: Text('Logout (isLoggedIn: ${user.isLoggedIn})'),
+                    child: Text('Logout'),
                   ),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: RaisedButton(
+                        onPressed: () {
+                          _updateLobby();
+                        },
+                        child: Text('Refresh Lobby'),
+                      )),
                   Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: RaisedButton(
