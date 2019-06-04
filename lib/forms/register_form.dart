@@ -39,9 +39,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
   _updateLobby() async {
     await lobbyService.addOnlineUser(user.email).then((onlineUsers) {
-      setState(() {
         lobby.setUsersOnline(onlineUsers);
-      });
     });
   }
 

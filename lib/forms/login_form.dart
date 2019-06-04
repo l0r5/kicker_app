@@ -29,13 +29,16 @@ class _LoginFormState extends State<LoginForm> {
   _logIn() async {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Logging in...')));
     try {
-      await authenticationService.signIn(_email, _password).then((userId) {
+      await authenticationService.signIn(_email, _password).then((userId) async {
         print('Signed in: $userId');
         user.setUid(userId);
         user.setEmail(_email);
         user.setIsLoggedIn(true);
-        _updateLobby();
-        Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
+        //update local lobby then go to home page
+        lobbyService.addOnlineUser(user.email).then((onlineUsers) {
+          lobby.setUsersOnline(onlineUsers);
+          Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
+        });
       });
     } on Exception catch (error) {
       if (error.toString().contains('ERROR_INVALID_EMAIL')) {
@@ -52,14 +55,6 @@ class _LoginFormState extends State<LoginForm> {
         });
       }
     }
-  }
-
-  _updateLobby() async {
-    await lobbyService.addOnlineUser(user.email).then((onlineUsers) {
-      setState(() {
-        lobby.setUsersOnline(onlineUsers);
-      });
-    });
   }
 
   @override

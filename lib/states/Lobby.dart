@@ -18,14 +18,19 @@ class Lobby {
   }
 
   setUsersOnline(List<String> usersOnline) {
-    String resultString = '';
-    usersOnline.forEach((user) => resultString += '$user,');
-    resultString = resultString.substring(0, resultString.length - 1);
-    if (_usersOnline.value == null) {
-      _usersOnline = BehaviorSubject.seeded(resultString);
-    } else {
-      usersOnline.add(resultString);
+    try {
+      String resultString = '';
+      usersOnline.forEach((user) => resultString += '$user,');
+      resultString = resultString.substring(0, resultString.length - 1);
+      if (_usersOnline.value == null) {
+        _usersOnline = BehaviorSubject.seeded(resultString);
+      } else {
+        usersOnline.add(resultString);
+      }
+    } on Exception catch (error) {
+      print(error);
     }
+
   }
 
   reset() {
