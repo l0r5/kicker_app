@@ -15,6 +15,9 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials, 
 samples, guidance on mobile development, and a full API reference.
 
+### import google-services
+import google-services.json which includes the api key for firebase and save it under android/app/ 
+
 ### Useful Flutter Commands
 
 See how App performs in release:
@@ -29,3 +32,4 @@ Update packages (dependencies)
 ### Mockups
 
 [Dropbox Link](https://www.dropbox.com/s/27a31vgcf1lvjmw/WohnheimApp%20Mockup.pdf?dl=0)
+
