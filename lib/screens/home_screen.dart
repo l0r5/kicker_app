@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kicker_app/services/authentication_service.dart';
 import 'package:kicker_app/services/lobby_service.dart';
@@ -59,11 +60,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     const EdgeInsets.symmetric(vertical: 40.0, horizontal: 40),
                 child: Column(children: <Widget>[
                   Text('Email: ${user.email}'),
-                  Text('Lobby: ${lobby.usersOnlineList}'),
+                  Text('Lobby (Users Online): ${lobby.usersOnlineList}'),
                   RaisedButton(
                     onPressed: () {
                       print('Logging out ${user.email}');
                       authenticationService.signOut();
+                      Firestore.instance.collection('users').document(user.uid).updateData({
+                        'isLoggedIn':false
+                      });
                       _quitLobbySession();
                       _resetGlobalStates();
                       Navigator.pushReplacementNamed(

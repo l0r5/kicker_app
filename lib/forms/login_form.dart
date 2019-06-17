@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kicker_app/screens/register_screen.dart';
 import 'package:kicker_app/services/authentication_service.dart';
@@ -31,9 +32,7 @@ class _LoginFormState extends State<LoginForm> {
     try {
       await authenticationService.signIn(_email, _password).then((userId) async {
         print('Signed in: $userId');
-        user.setUid(userId);
-        user.setEmail(_email);
-        user.setIsLoggedIn(true);
+        _updateUserData(userId);
         //update local lobby then go to home page
         lobbyService.addOnlineUser(user.email).then((onlineUsers) {
           lobby.setUsersOnline(onlineUsers);
@@ -55,6 +54,17 @@ class _LoginFormState extends State<LoginForm> {
         });
       }
     }
+  }
+
+  _updateUserData(String userId) {
+    user.setUid(userId);
+    user.setEmail(_email);
+    user.setIsLoggedIn(true);
+    Firestore.instance.collection('users').document(userId).setData({
+      'uid': userId,
+      'email': _email,
+      'isLoggedIn': true,
+    });
   }
 
   @override

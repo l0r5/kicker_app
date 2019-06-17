@@ -7,7 +7,6 @@ import 'elements/choose_player_button.dart';
 import '../states/Match.dart';
 import 'match_screen.dart';
 
-
 class ChooseTeamsScreen extends StatefulWidget {
   @override
   _ChooseTeamsScreenState createState() {
