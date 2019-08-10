@@ -86,14 +86,12 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                           RaisedButton(
                             onPressed: () {
                               match.setTeams();
-                              Scaffold.of(context).showSnackBar(
-                                  SnackBar(content: Text('START')));
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => MatchScreen()));
                             },
-                            child: Text('START'),
+                            child: Text('Start'),
                           ),
                         ],
                       ),

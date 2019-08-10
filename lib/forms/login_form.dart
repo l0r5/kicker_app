@@ -105,39 +105,25 @@ class _LoginFormState extends State<LoginForm> {
           ),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: MaterialButton(
-                elevation: 5.0,
-                minWidth: 200.0,
-                height: 42.0,
-                color: Colors.blue,
+              child: RaisedButton(
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     _formKey.currentState.save();
                     _logIn();
                   }
                 },
-                child: Text(
-                  'Login',
-                  style: new TextStyle(fontSize: 20.0, color: Colors.white),
-                ),
+                child: Text('Login'),
               )),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: MaterialButton(
-                elevation: 5.0,
-                minWidth: 200.0,
-                height: 42.0,
-                color: Colors.blue,
+              child: RaisedButton(
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => RegisterScreen()));
                 },
-                child: Text(
-                  'Register',
-                  style: new TextStyle(fontSize: 20.0, color: Colors.white),
-                ),
+                child: Text('Register'),
               ))
         ]));
   }

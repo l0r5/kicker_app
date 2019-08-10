@@ -115,7 +115,7 @@ class _MatchScreenState extends State<MatchScreen> {
                         MaterialPageRoute(
                             builder: (context) => ResultScreen()));
                   },
-                  child: Text('FINISH'),
+                  child: Text('Finish'),
                 ),
               ),
             ),
