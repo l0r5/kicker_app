@@ -14,6 +14,12 @@ const String BASE_URL_KICKER_SEVER_APP_API = 'https://kickerappserver-xgtsc5aurq
 /**
  * Style Consts
  */
+
+//COLORS
+const int PRIMARY_COLOR = 0xff20a120;
+const int ACCENT_COLOR = 0xffa12020;
+const int RESULT_CARD_COLOR = 0xffffffff;
+
 // RESULT CARD
 const double RESULT_CARD_HEIGHT_SIZE_S = 70;
 const double RESULT_CARD_HEIGHT_SIZE_M = 90;
@@ -21,4 +27,5 @@ const double RESULT_CARD_HEIGHT_SIZE_L = 120;
 const double RESULT_CARD_HEIGHT_SIZE_XL = 160;
 const double RESULT_CARD_HEIGHT_HEADER = 30;
 const double RESULT_CARD_BORDER_RADIUS = 3.0;
-const int RESULT_CARD_COLOR = 0xffffffff;
+
+

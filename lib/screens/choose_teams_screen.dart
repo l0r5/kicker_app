@@ -49,8 +49,8 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.all(15),
+                        padding: EdgeInsets.fromLTRB(10,15,10,15),
+                        margin: EdgeInsets.fromLTRB(10,15,10,15),
                         width: 160,
                         decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.8),
@@ -71,8 +71,8 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                           ],
                         )),
                     Container(
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.all(15),
+                        padding: EdgeInsets.fromLTRB(10,15,10,15),
+                        margin: EdgeInsets.fromLTRB(10,15,10,15),
                         width: 160,
                         decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.8),
@@ -99,14 +99,14 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                      margin: EdgeInsets.all(15),
+                      margin: EdgeInsets.fromLTRB(10,15,10,15),
                       child: ChoosePlayerButton(
                         playerNumber: 1,
                         availablePlayers: lobby.usersOnlineList,
                         notifyParent: refresh,
                       )),
                   Container(
-                      margin: EdgeInsets.all(15),
+                      margin: EdgeInsets.fromLTRB(10,15,10,15),
                       child: ChoosePlayerButton(
                         playerNumber: 3,
                         availablePlayers: lobby.usersOnlineList,
@@ -119,14 +119,14 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                      margin: EdgeInsets.all(15),
+                      margin: EdgeInsets.fromLTRB(10,15,10,15),
                       child: ChoosePlayerButton(
                         playerNumber: 2,
                         availablePlayers: lobby.usersOnlineList,
                         notifyParent: refresh,
                       )),
                   Container(
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.fromLTRB(10,15,10,15),
                     child: ChoosePlayerButton(
                       playerNumber: 4,
                       availablePlayers: lobby.usersOnlineList,
@@ -145,7 +145,7 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                   margin: EdgeInsets.all(10),
                   padding: EdgeInsets.all(15),
                   child: Center(
-                    child: RaisedButton(
+                    child: RaisedButton.icon(
                       onPressed: () {
                         match.setTeams();
                         Navigator.push(
@@ -153,7 +153,8 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                             MaterialPageRoute(
                                 builder: (context) => MatchScreen()));
                       },
-                      child: Text('Start'),
+                      label: Text('Start'),
+                      icon: Icon(Icons.directions_run)
                     ),
                   ))),
         ]));

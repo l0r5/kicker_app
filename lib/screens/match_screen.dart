@@ -59,7 +59,7 @@ class _MatchScreenState extends State<MatchScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.fromLTRB(10,15,10,15),
                     child: PlayerControls(
                       playerNumber: 1,
                       playerName: match.player1Name,
@@ -67,7 +67,7 @@ class _MatchScreenState extends State<MatchScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.fromLTRB(10,15,10,15),
                     child: PlayerControls(
                       playerNumber: 3,
                       playerName: match.player3Name,
@@ -81,7 +81,7 @@ class _MatchScreenState extends State<MatchScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.fromLTRB(10,15,10,15),
                     child: PlayerControls(
                       playerNumber: 2,
                       playerName: match.player2Name,
@@ -89,7 +89,7 @@ class _MatchScreenState extends State<MatchScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.fromLTRB(10,15,10,15),
                     child: PlayerControls(
                       playerNumber: 4,
                       playerName: match.player4Name,
@@ -108,14 +108,15 @@ class _MatchScreenState extends State<MatchScreen> {
               margin: EdgeInsets.all(10),
               padding: EdgeInsets.all(15),
               child: Center(
-                child: RaisedButton(
+                child: RaisedButton.icon(
                   onPressed: () {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => ResultScreen()));
                   },
-                  child: Text('Finish'),
+                  label: Text('Finish'),
+                    icon: Icon(Icons.send)
                 ),
               ),
             ),

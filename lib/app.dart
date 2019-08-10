@@ -6,6 +6,7 @@ import 'screens/login_screen.dart';
 import 'screens/choose_teams_screen.dart';
 import 'states/User.dart';
 import 'utils/consts_utils.dart' as globals;
+import 'utils/consts_utils.dart';
 
 class App extends StatelessWidget {
   @override
@@ -15,13 +16,13 @@ class App extends StatelessWidget {
     return MaterialApp(
         title: 'Test Title',
         theme: ThemeData(
-            primaryColor: Color(0xff20a120),
-            accentColor: Color(0xffa12020),
+            primaryColor: Color(PRIMARY_COLOR),
+            accentColor: Color(ACCENT_COLOR),
             textTheme: TextTheme(
               headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-              title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-              body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-              body2: TextStyle(fontSize: 12.0, fontFamily: 'Hind'),
+              title: TextStyle(fontSize: 38.0),
+              body1: TextStyle(fontSize: 14.0),
+              body2: TextStyle(fontSize: 12.0),
               button: TextStyle(fontSize: 18.0),
             ),
             buttonTheme: ButtonThemeData(
