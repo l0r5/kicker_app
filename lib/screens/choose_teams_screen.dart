@@ -27,63 +27,135 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Choose Teams'),
+          title: Text('Assemble Teams'),
         ),
-        body: Builder(
-            builder: (context) => Container(
-                decoration: BoxDecoration(color: Colors.lightGreen),
-                child: Column(
+        body: Stack(alignment: AlignmentDirectional.center, children: <Widget>[
+          Positioned.fill(
+            child: Image.asset(
+              'assets/soccer-field.png',
+              fit: BoxFit.fill,
+            ),
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+          ),
+          Positioned(
+              left: 0,
+              top: 0,
+              right: 0,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Row(children: <Widget>[Text('User: ${user.email}')]),
-                    Row(
-                      children: <Widget>[
-                        ChoosePlayerButton(
-                          playerNumber: 1,
-                          availablePlayers: lobby.usersOnlineList,
-                          notifyParent: refresh,
-                        ),
-                        ChoosePlayerButton(
-                          playerNumber: 3,
-                          availablePlayers: lobby.usersOnlineList,
-                          notifyParent: refresh,
-                        )
-                      ],
+                    Container(
+                        padding: EdgeInsets.all(15),
+                        margin: EdgeInsets.all(15),
+                        width: 160,
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              'Team 1',
+                              style: TextStyle(
+                                  fontSize: 28, fontWeight: FontWeight.w300),
+                            ),
+                            Text('Player 1: ${match.getPlayerNameByNumber(1)}',
+                            style: Theme.of(context).textTheme.body2,),
+                            Text('Player 2: ${match.getPlayerNameByNumber(2)}',
+                              style: Theme.of(context).textTheme.body2,)
+                          ],
+                        )),
+                    Container(
+                        padding: EdgeInsets.all(15),
+                        margin: EdgeInsets.all(15),
+                        width: 160,
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        alignment: Alignment.topLeft,
+                        child: Column(children: <Widget>[
+                          Text(
+                            'Team 2',
+                            style: TextStyle(
+                                fontSize: 28, fontWeight: FontWeight.w300),
+                          ),
+                          Text('Player 3: ${match.getPlayerNameByNumber(3)}',
+                            style: Theme.of(context).textTheme.body2,),
+                          Text('Player 4: ${match.getPlayerNameByNumber(4)}',
+                            style: Theme.of(context).textTheme.body2,)
+                        ]))
+                  ])),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.all(15),
+                      child: ChoosePlayerButton(
+                        playerNumber: 1,
+                        availablePlayers: lobby.usersOnlineList,
+                        notifyParent: refresh,
+                      )),
+                  Container(
+                      margin: EdgeInsets.all(15),
+                      child: ChoosePlayerButton(
+                        playerNumber: 3,
+                        availablePlayers: lobby.usersOnlineList,
+                        notifyParent: refresh,
+                      ))
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.all(15),
+                      child: ChoosePlayerButton(
+                        playerNumber: 2,
+                        availablePlayers: lobby.usersOnlineList,
+                        notifyParent: refresh,
+                      )),
+                  Container(
+                    margin: EdgeInsets.all(15),
+                    child: ChoosePlayerButton(
+                      playerNumber: 4,
+                      availablePlayers: lobby.usersOnlineList,
+                      notifyParent: refresh,
                     ),
-                    Row(
-                      children: <Widget>[
-                        ChoosePlayerButton(
-                          playerNumber: 2,
-                          availablePlayers: lobby.usersOnlineList,
-                          notifyParent: refresh,
-                        ),
-                        ChoosePlayerButton(
-                          playerNumber: 4,
-                          availablePlayers: lobby.usersOnlineList,
-                          notifyParent: refresh,
-                        ),
-                      ],
+                  )
+                ],
+              ),
+            ],
+          ),
+          Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                  margin: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(15),
+                  child: Center(
+                    child: RaisedButton(
+                      onPressed: () {
+                        match.setTeams();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MatchScreen()));
+                      },
+                      child: Text('Start'),
                     ),
-                    Row(
-                      children: <Widget>[
-                        RaisedButton(
-                          onPressed: () {
-                            match.setTeams();
-                            Scaffold.of(context)
-                                .showSnackBar(SnackBar(content: Text('START')));
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => MatchScreen()));
-                          },
-                          child: Text('START'),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                            'Team 1: ${match.getPlayerNameByNumber(1)} - ${match.getPlayerNameByNumber(2)}'
-                            '\nTeam 2: ${match.getPlayerNameByNumber(3)} - ${match.getPlayerNameByNumber(4)}'),
-                      ],
-                    ),
-                  ],
-                ))));
+                  ))),
+        ]));
   }
 }

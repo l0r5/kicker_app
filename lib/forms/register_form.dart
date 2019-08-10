@@ -4,7 +4,7 @@ import 'package:kicker_app/services/lobby_service.dart';
 import 'package:kicker_app/states/Lobby.dart';
 import '../main.dart';
 import '../states/User.dart';
-import '../utils/globals_utils.dart' as globals;
+import '../utils/consts_utils.dart' as globals;
 
 class RegisterForm extends StatefulWidget {
   @override
@@ -115,11 +115,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: MaterialButton(
-                elevation: 5.0,
-                minWidth: 200.0,
-                height: 42.0,
-                color: Colors.blue,
+              child: RaisedButton(
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     _formKey.currentState.save();
