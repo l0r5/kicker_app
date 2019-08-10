@@ -20,6 +20,7 @@ class _RegisterFormState extends State<RegisterForm> {
   final BaseAuthenticationService auth = getIt.get<AuthenticationService>();
   final BaseLobbyService lobbyService = getIt.get<LobbyService>();
 
+  String _username;
   String _email;
   String _password;
   String _passwordConfirmed;
@@ -31,6 +32,7 @@ class _RegisterFormState extends State<RegisterForm> {
       print('Signed up: $userId');
       auth.sendEmailVerification();
       _showVerifyEmailSentDialog();
+      user.setUsername(_username);
       user.setEmail(_email);
       user.setIsLoggedIn(true);
       _updateLobby();
@@ -38,7 +40,7 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   _updateLobby() async {
-    await lobbyService.addOnlineUser(user.email).then((onlineUsers) {
+    await lobbyService.addOnlineUser(user.username).then((onlineUsers) {
         lobby.setUsersOnline(onlineUsers);
     });
   }
@@ -47,7 +49,6 @@ class _RegisterFormState extends State<RegisterForm> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // return object of type Dialog
         return AlertDialog(
           title: new Text("Verify your account"),
           content:
@@ -70,6 +71,17 @@ class _RegisterFormState extends State<RegisterForm> {
     return Form(
         key: _formKey,
         child: Column(children: <Widget>[
+          TextFormField(
+            decoration: InputDecoration(hintText: 'Username'),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+            },
+            onSaved: (value) {
+              _username = value;
+            },
+          ),
           TextFormField(
             decoration: InputDecoration(hintText: 'E-Mail'),
             validator: (value) {

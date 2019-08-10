@@ -30,7 +30,9 @@ class _LoginFormState extends State<LoginForm> {
   _logIn() async {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Logging in...')));
     try {
-      await authenticationService.signIn(_email, _password).then((userId) async {
+      await authenticationService
+          .signIn(_email, _password)
+          .then((userId) async {
         print('Signed in: $userId');
         _updateUserData(userId);
         //update local lobby then go to home page
@@ -58,6 +60,13 @@ class _LoginFormState extends State<LoginForm> {
 
   _updateUserData(String userId) {
     user.setUid(userId);
+
+    var storedUsername = Firestore.instance
+        .collection('users')
+        .document(userId)
+        .collection('username');
+
+    user.setUsername('$storedUsername');
     user.setEmail(_email);
     user.setIsLoggedIn(true);
     Firestore.instance.collection('users').document(userId).setData({
