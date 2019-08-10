@@ -115,11 +115,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: MaterialButton(
-                elevation: 5.0,
-                minWidth: 200.0,
-                height: 42.0,
-                color: Colors.blue,
+              child: RaisedButton(
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     _formKey.currentState.save();

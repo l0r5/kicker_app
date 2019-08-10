@@ -25,8 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await lobbyService.getOnlineUsers().then((onlineUsers) {
       lobby.setUsersOnline(onlineUsers);
       print('Local Lobby Online Users: ${lobby.usersOnlineList}');
-      setState(() {
-        });
+      setState(() {});
     });
   }
 
@@ -54,44 +53,47 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: Text('Kicker App'),
         ),
-        body: Center(
-            child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 40.0, horizontal: 40),
-                child: Column(children: <Widget>[
-                  Text('Email: ${user.email}'),
-                  Text('Lobby (Users Online): ${lobby.usersOnlineList}'),
-                  RaisedButton(
-                    onPressed: () {
-                      print('Logging out ${user.email}');
-                      authenticationService.signOut();
-                      Firestore.instance.collection('users').document(user.uid).updateData({
-                        'isLoggedIn':false
-                      });
-                      _quitLobbySession();
-                      _resetGlobalStates();
-                      Navigator.pushReplacementNamed(
-                          context, globals.ROUTE_LOGIN);
-                    },
-                    child: Text('Logout'),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: RaisedButton(
+        body: Container(
+            decoration: BoxDecoration(color: Colors.lightGreen),
+            child: Center(
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 40.0, horizontal: 40),
+                    child: Column(children: <Widget>[
+                      Text('Email: ${user.email}'),
+                      Text('Lobby (Users Online): ${lobby.usersOnlineList}'),
+                      RaisedButton(
                         onPressed: () {
-                          _updateLobby();
+                          print('Logging out ${user.email}');
+                          authenticationService.signOut();
+                          Firestore.instance
+                              .collection('users')
+                              .document(user.uid)
+                              .updateData({'isLoggedIn': false});
+                          _quitLobbySession();
+                          _resetGlobalStates();
+                          Navigator.pushReplacementNamed(
+                              context, globals.ROUTE_LOGIN);
                         },
-                        child: Text('Refresh Lobby'),
-                      )),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: RaisedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, globals.ROUTE_SINGLE_MATCH);
-                        },
-                        child: Text('Single Match'),
-                      ))
-                ]))));
+                        child: Text('Logout'),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: RaisedButton(
+                            onPressed: () {
+                              _updateLobby();
+                            },
+                            child: Text('Refresh Lobby'),
+                          )),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: RaisedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, globals.ROUTE_SINGLE_MATCH);
+                            },
+                            child: Text('Single Match'),
+                          ))
+                    ])))));
   }
 }
