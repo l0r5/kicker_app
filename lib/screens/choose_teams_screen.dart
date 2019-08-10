@@ -147,7 +147,6 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                   child: Center(
                     child: RaisedButton.icon(
                       onPressed: () {
-                        match.setTeams();
                         Navigator.push(
                             context,
                             MaterialPageRoute(

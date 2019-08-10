@@ -11,18 +11,22 @@ class ResultScreen extends StatelessWidget {
 
   _saveMatch() {
     Firestore.instance.collection('matches').document().setData({
-      'team1Names': match.team1Names,
-      'team2Names': match.team2Names,
-      'team1Goals': match.team1Goals,
-      'team2Goals': match.team2Goals,
-      'player1Name': match.player1Name,
-      'player2Name': match.player2Name,
-      'player3Name': match.player3Name,
-      'player4Name': match.player4Name,
-      'player1Goals': match.player1Goals,
-      'player2Goals': match.player2Goals,
-      'player3Goals': match.player3Goals,
-      'player4Goals': match.player4Goals,
+      'Player1': {
+        'username': match.players[1]['playerName'],
+        'goals': match.players[1]['playerGoals']
+      },
+      'Player2': {
+        'username': match.players[2]['playerName'],
+        'goals': match.players[2]['playerGoals']
+      },
+      'Player3': {
+        'username': match.players[3]['playerName'],
+        'goals': match.players[3]['playerGoals']
+      },
+      'Player4': {
+        'username': match.players[4]['playerName'],
+        'goals': match.players[4]['playerGoals']
+      },
     });
   }
 
@@ -55,7 +59,8 @@ class ResultScreen extends StatelessWidget {
                                 child: Column(children: <Widget>[
                               Text('Team1 : Team2',
                                   style: Theme.of(context).textTheme.body1),
-                              Text('${match.team1Goals} : ${match.team2Goals}',
+                              Text(
+                                  '${match.getTeamGoalsByTeamNumber(1).toString()} : ${match.getTeamGoalsByTeamNumber(2).toString()}',
                                   style: Theme.of(context).textTheme.body1),
                             ])),
                           ),
@@ -83,16 +88,16 @@ class ResultScreen extends StatelessWidget {
                                 alignment: Alignment.centerLeft,
                                 child: Column(children: <Widget>[
                                   Text(
-                                      '${match.player1Name} ${match.player1Goals}',
+                                      '${match.getPlayerNameByNumber(1)} ${match.getPlayerGoalsByPlayerNumber(1)}',
                                       style: Theme.of(context).textTheme.body1),
                                   Text(
-                                      '${match.player2Name} ${match.player2Goals}',
+                                      '${match.getPlayerNameByNumber(2)} ${match.getPlayerGoalsByPlayerNumber(2)}',
                                       style: Theme.of(context).textTheme.body1),
                                   Text(
-                                      '${match.player3Name} ${match.player3Goals}',
+                                      '${match.getPlayerNameByNumber(3)} ${match.getPlayerGoalsByPlayerNumber(3)}',
                                       style: Theme.of(context).textTheme.body1),
                                   Text(
-                                      '${match.player4Name} ${match.player4Goals}',
+                                      '${match.getPlayerNameByNumber(4)} ${match.getPlayerGoalsByPlayerNumber(4)}',
                                       style: Theme.of(context).textTheme.body1)
                                 ]),
                               )),
@@ -121,7 +126,8 @@ class ResultScreen extends StatelessWidget {
         onPressed: () {
           _saveMatch();
           _resetMatch();
-          Navigator.of(context).pushNamedAndRemoveUntil(globals.ROUTE_HOME, (Route<dynamic> route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              globals.ROUTE_HOME, (Route<dynamic> route) => false);
         },
         icon: Icon(Icons.save),
         label: Text('Save'),
