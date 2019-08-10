@@ -1,5 +1,5 @@
 import 'package:kicker_app/utils/network_utils.dart';
-import '../utils/globals_utils.dart' as globals;
+import '../utils/consts_utils.dart' as globals;
 
 abstract class BaseLobbyService {
   Future<List<String>> getOnlineUsers();

@@ -135,8 +135,9 @@ class _PlayerControlsState extends State<PlayerControls> {
         width: 160,
         height: 160,
         padding: EdgeInsets.all(5),
-        decoration: BoxDecoration(color: Colors.white.withOpacity(0.8),
-        borderRadius: BorderRadius.all(Radius.circular(10))),
+        decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.8),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Stack(
           children: <Widget>[
             Positioned(
@@ -155,10 +156,7 @@ class _PlayerControlsState extends State<PlayerControls> {
                 shape: CircleBorder(),
                 color: Color.fromRGBO(29, 89, 179, 1),
                 padding: EdgeInsets.all(0),
-                child: Text(
-                  '+',
-                  style: TextStyle(fontSize: 28, color: Colors.white),
-                ),
+                child: Icon(Icons.add),
               ),
             ),
             Positioned(
@@ -185,10 +183,7 @@ class _PlayerControlsState extends State<PlayerControls> {
                 shape: CircleBorder(),
                 color: Color.fromRGBO(179, 29, 59, 1),
                 padding: EdgeInsets.all(0),
-                child: Text(
-                  '-',
-                  style: TextStyle(fontSize: 28, color: Colors.white),
-                ),
+                child: Icon(Icons.remove),
               ),
             ),
             Positioned(
@@ -207,8 +202,10 @@ class _PlayerControlsState extends State<PlayerControls> {
                 shape: CircleBorder(),
                 color: Colors.black,
                 padding: EdgeInsets.all(0),
-                child: Text('ET',
-                  style: TextStyle(fontSize: 12, color: Colors.white),),
+                child: Text(
+                  'ET',
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
               ),
             ),
           ],

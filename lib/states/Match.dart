@@ -73,7 +73,7 @@ class Match {
     }
   }
 
-  setPlayerName(int playerNumber, playerName) {
+  setPlayerName(int playerNumber, String playerName) {
     switch (playerNumber) {
       case 1:
         setPlayer1Name(playerName);

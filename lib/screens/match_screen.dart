@@ -47,7 +47,7 @@ class _MatchScreenState extends State<MatchScreen> {
               child: Center(
                   child: Text(
                 'Team1   ${match.team1Goals}  :  ${match.team2Goals}   Team2',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.w300),
               )),
             ),
           ),

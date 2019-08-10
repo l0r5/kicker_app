@@ -5,7 +5,7 @@ import 'package:kicker_app/services/lobby_service.dart';
 import '../states/Lobby.dart';
 import '../states/User.dart';
 import '../main.dart';
-import '../utils/globals_utils.dart' as globals;
+import '../utils/consts_utils.dart' as globals;
 
 class HomeScreen extends StatefulWidget {
   @override

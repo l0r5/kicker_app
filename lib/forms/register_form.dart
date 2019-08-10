@@ -4,7 +4,7 @@ import 'package:kicker_app/services/lobby_service.dart';
 import 'package:kicker_app/states/Lobby.dart';
 import '../main.dart';
 import '../states/User.dart';
-import '../utils/globals_utils.dart' as globals;
+import '../utils/consts_utils.dart' as globals;
 
 class RegisterForm extends StatefulWidget {
   @override
