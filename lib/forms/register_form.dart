@@ -26,22 +26,29 @@ class _RegisterFormState extends State<RegisterForm> {
   String _passwordConfirmed;
   String _validationMessage = '';
 
-  void _register() async {
+  _register() async {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Register...')));
-    await auth.signUp(_email, _password).then((userId) {
-      print('Signed up: $userId');
-      auth.sendEmailVerification();
-      _showVerifyEmailSentDialog();
-      user.setUsername(_username);
-      user.setEmail(_email);
-      user.setIsLoggedIn(true);
-      _updateLobby();
-    });
+    try {
+      await auth.signUp(_email, _password).then((userId) {
+        print('Signed up: $userId');
+        auth.sendEmailVerification();
+        _showVerifyEmailSentDialog();
+        user.setUsername(_username);
+        user.setEmail(_email);
+        user.setIsLoggedIn(true);
+        _updateLobby();
+      });
+    } on Exception catch (e) {
+      if(e.toString().contains('ERROR_INVALID_EMAIL'))
+      setState(() {
+        _validationMessage = 'Please enter a valid email format, e.g.: xyz@zxy.com';
+      });
+    }
   }
 
   _updateLobby() async {
     await lobbyService.addOnlineUser(user.username).then((onlineUsers) {
-        lobby.setUsersOnline(onlineUsers);
+      lobby.setUsersOnline(onlineUsers);
     });
   }
 
@@ -77,7 +84,7 @@ class _RegisterFormState extends State<RegisterForm> {
               if (value.isEmpty) {
                 return 'Please enter some text';
               } else {
-                if(value.length > 16) {
+                if (value.length > 16) {
                   return 'The maximum character length is 16';
                 }
               }
