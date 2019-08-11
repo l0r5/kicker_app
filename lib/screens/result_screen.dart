@@ -60,7 +60,7 @@ class ResultScreen extends StatelessWidget {
                               Text('Team1 : Team2',
                                   style: Theme.of(context).textTheme.body1),
                               Text(
-                                  '${match.getTeamGoalsByTeamNumber(1).toString()} : ${match.getTeamGoalsByTeamNumber(2).toString()}',
+                                  '${match.getTeamGoals(1).toString()} : ${match.getTeamGoals(2).toString()}',
                                   style: Theme.of(context).textTheme.body1),
                             ])),
                           ),
@@ -88,16 +88,16 @@ class ResultScreen extends StatelessWidget {
                                 alignment: Alignment.centerLeft,
                                 child: Column(children: <Widget>[
                                   Text(
-                                      '${match.getPlayerNameByNumber(1)} ${match.getPlayerGoalsByPlayerNumber(1)}',
+                                      '${match.getPlayerName(1)} ${match.getPlayerGoals(1)}',
                                       style: Theme.of(context).textTheme.body1),
                                   Text(
-                                      '${match.getPlayerNameByNumber(2)} ${match.getPlayerGoalsByPlayerNumber(2)}',
+                                      '${match.getPlayerName(2)} ${match.getPlayerGoals(2)}',
                                       style: Theme.of(context).textTheme.body1),
                                   Text(
-                                      '${match.getPlayerNameByNumber(3)} ${match.getPlayerGoalsByPlayerNumber(3)}',
+                                      '${match.getPlayerName(3)} ${match.getPlayerGoals(3)}',
                                       style: Theme.of(context).textTheme.body1),
                                   Text(
-                                      '${match.getPlayerNameByNumber(4)} ${match.getPlayerGoalsByPlayerNumber(4)}',
+                                      '${match.getPlayerName(4)} ${match.getPlayerGoals(4)}',
                                       style: Theme.of(context).textTheme.body1)
                                 ]),
                               )),

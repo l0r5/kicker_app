@@ -21,30 +21,35 @@ class _PlayerControlsState extends State<PlayerControls> {
   List<int> teamGoals = [0, 0];
 
   _addGoalToPlayer() {
-    int playerGoals =
-        match.getPlayerGoalsByPlayerNumber(widget.playerNumber) + 1;
-    match.setPlayerGoalsByPlayerNumber(widget.playerNumber, playerGoals);
+    int playerGoals = match.getPlayerGoals(widget.playerNumber) + 1;
+    int teamGoals =
+        match.getTeamGoals(match.getTeamNumber(widget.playerNumber)) + 1;
+    match.setPlayerGoals(widget.playerNumber, playerGoals);
+    match.setTeamGoals(match.getTeamNumber(widget.playerNumber), teamGoals);
   }
 
   _removeGoalFromPlayer() {
-    int playerGoals = match.getPlayerGoalsByPlayerNumber(widget.playerNumber);
+    int playerGoals = match.getPlayerGoals(widget.playerNumber);
     if (playerGoals > 0) {
       playerGoals--;
     }
-    match.setPlayerGoalsByPlayerNumber(1, playerGoals);
+    int teamGoals =
+        match.getTeamGoals(match.getTeamNumber(widget.playerNumber));
+    if (teamGoals > 0) {
+      teamGoals--;
+    }
+    match.setPlayerGoals(widget.playerNumber, playerGoals);
+    match.setTeamGoals(match.getTeamNumber(widget.playerNumber), teamGoals);
   }
 
   _addOwnGoal() {
-    int teamGoals;
-
-    if (widget.playerNumber == 1 || widget.playerNumber == 2) {
-      teamGoals = match.getTeamGoalsByTeamNumber(2);
-      teamGoals++;
-    }
-
-    if (widget.playerNumber == 3 || widget.playerNumber == 4) {
-      teamGoals = match.getTeamGoalsByTeamNumber(1);
-      teamGoals++;
+    switch (match.getTeamNumber(widget.playerNumber)) {
+      case 1:
+        match.setTeamGoals(2, match.getTeamGoals(2) + 1);
+        break;
+      case 2:
+        match.setTeamGoals(1, match.getTeamGoals(1) + 1);
+        break;
     }
   }
 

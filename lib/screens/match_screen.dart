@@ -46,7 +46,7 @@ class _MatchScreenState extends State<MatchScreen> {
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               child: Center(
                   child: Text(
-                "Team1   ${match.getTeamGoalsByTeamNumber(1).toString()}  :  ${match.getTeamGoalsByTeamNumber(2).toString()}   Team2",
+                "Team1   ${match.getTeamGoals(1).toString()}  :  ${match.getTeamGoals(2).toString()}   Team2",
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.w300),
               )),
             ),
@@ -62,7 +62,7 @@ class _MatchScreenState extends State<MatchScreen> {
                     margin: EdgeInsets.fromLTRB(10,15,10,15),
                     child: PlayerControls(
                       playerNumber: 1,
-                      playerName: match.getPlayerNameByNumber(1),
+                      playerName: match.getPlayerName(1),
                       notifyParent: refresh,
                     ),
                   ),
@@ -70,7 +70,7 @@ class _MatchScreenState extends State<MatchScreen> {
                     margin: EdgeInsets.fromLTRB(10,15,10,15),
                     child: PlayerControls(
                       playerNumber: 3,
-                      playerName: match.getPlayerNameByNumber(3),
+                      playerName: match.getPlayerName(3),
                       notifyParent: refresh,
                     ),
                   )
@@ -84,7 +84,7 @@ class _MatchScreenState extends State<MatchScreen> {
                     margin: EdgeInsets.fromLTRB(10,15,10,15),
                     child: PlayerControls(
                       playerNumber: 2,
-                      playerName: match.getPlayerNameByNumber(2),
+                      playerName: match.getPlayerName(2),
                       notifyParent: refresh,
                     ),
                   ),
@@ -92,7 +92,7 @@ class _MatchScreenState extends State<MatchScreen> {
                     margin: EdgeInsets.fromLTRB(10,15,10,15),
                     child: PlayerControls(
                       playerNumber: 4,
-                      playerName: match.getPlayerNameByNumber(4),
+                      playerName: match.getPlayerName(4),
                       notifyParent: refresh,
                     ),
                   )

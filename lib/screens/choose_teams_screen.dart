@@ -64,9 +64,9 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                               style: TextStyle(
                                   fontSize: 28, fontWeight: FontWeight.w300),
                             ),
-                            Text('Player 1: ${match.getPlayerNameByNumber(1)}',
+                            Text('Player 1: ${match.getPlayerName(1)}',
                             style: Theme.of(context).textTheme.body2,),
-                            Text('Player 2: ${match.getPlayerNameByNumber(2)}',
+                            Text('Player 2: ${match.getPlayerName(2)}',
                               style: Theme.of(context).textTheme.body2,)
                           ],
                         )),
@@ -85,9 +85,9 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                             style: TextStyle(
                                 fontSize: 28, fontWeight: FontWeight.w300),
                           ),
-                          Text('Player 3: ${match.getPlayerNameByNumber(3)}',
+                          Text('Player 3: ${match.getPlayerName(3)}',
                             style: Theme.of(context).textTheme.body2,),
-                          Text('Player 4: ${match.getPlayerNameByNumber(4)}',
+                          Text('Player 4: ${match.getPlayerName(4)}',
                             style: Theme.of(context).textTheme.body2,)
                         ]))
                   ])),

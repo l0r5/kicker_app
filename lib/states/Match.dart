@@ -9,14 +9,21 @@ class Match {
       4: {'playerName': 'not set', 'playerGoals': 0}
     },
   );
+  BehaviorSubject _teamsGoals = BehaviorSubject.seeded(
+    {
+      1: 0,
+      2: 0,
+    },
+  );
 
   Map get players => _players.value;
+  Map get teamsGoals => _teamsGoals.value;
 
   reset() {
-    _initPlayers();
+    _init();
   }
 
-  _initPlayers() {
+  _init() {
     _players = BehaviorSubject.seeded(
       {
         1: {'playerName': 'not set', 'playerGoals': 0},
@@ -25,20 +32,25 @@ class Match {
         4: {'playerName': 'not set', 'playerGoals': 0}
       },
     );
+    _teamsGoals = BehaviorSubject.seeded(
+      {
+        1: 0,
+        2: 0,
+      },
+    );
   }
 
-  getPlayerNameByNumber(int playerNumber) {
-    Map matchPlayers = players;
-    if (matchPlayers == null) {
-      _initPlayers();
+  getPlayerName(int playerNumber) {
+    if (players == null) {
+      _init();
     }
-    return matchPlayers[playerNumber]['playerName'];
+    return players[playerNumber]['playerName'];
   }
 
   setPlayer(int playerNumber, String playerName) {
     Map matchPlayers = players;
     if (matchPlayers == null) {
-      _initPlayers();
+      _init();
     } else {
       matchPlayers[playerNumber] = {
         'playerName': '$playerName',
@@ -48,54 +60,48 @@ class Match {
     }
   }
 
-  getTeamNamesByTeamNumber(int teamNumber) {
-    Map matchPlayers = players;
-    if (matchPlayers == null) {
-      _initPlayers();
-    }
-    switch (teamNumber) {
-      case 1:
-        return '${matchPlayers[1]['playerName']},${matchPlayers[2]['playerName']}';
-      case 2:
-        return '${matchPlayers[3]['playerName']},${matchPlayers[4]['playerName']}';
-      default:
-        return 'Error';
-    }
-  }
-
-  getTeamGoalsByTeamNumber(int teamNumber) {
+  getPlayerNames(int teamNumber) {
     if (players == null) {
-      _initPlayers();
+      _init();
     }
-    int player1 = players[1]['playerGoals'];
-    int player2 = players[2]['playerGoals'];
-    int player3 = players[3]['playerGoals'];
-    int player4 = players[4]['playerGoals'];
     switch (teamNumber) {
       case 1:
-        return  player1+player2;
+        return '${players[1]['playerName']},${players[2]['playerName']}';
       case 2:
-        return player3+player4;
-      default:
-        return 1;
+        return '${players[3]['playerName']},${players[4]['playerName']}';
     }
   }
 
-  getPlayerGoalsByPlayerNumber(int playerNumber) {
-    Map matchPlayers = players;
-    if (matchPlayers == null) {
-      _initPlayers();
-    }
-    return matchPlayers[playerNumber]['playerGoals'];
+  getTeamNumber(int playerNumber) {
+    return (playerNumber == 1 || playerNumber == 2) ? 1 : 2;
   }
 
-  setPlayerGoalsByPlayerNumber(int playerNumber, int goals) {
+  getTeamGoals(int teamNumber) {
+    return teamsGoals[teamNumber];
+  }
+
+  setTeamGoals(int teamNumber, int goals) {
+    if (teamsGoals == null) {
+      _init();
+    }
+    Map matchTeamGoals = teamsGoals;
+    matchTeamGoals[teamNumber] = goals;
+    _teamsGoals.add(matchTeamGoals);
+  }
+
+  getPlayerGoals(int playerNumber) {
+    if (players == null) {
+      _init();
+    }
+    return players[playerNumber]['playerGoals'];
+  }
+
+  setPlayerGoals(int playerNumber, int goals) {
     Map matchPlayers = players;
     if (matchPlayers == null) {
-      _initPlayers();
+      _init();
     }
     matchPlayers[playerNumber]['playerGoals'] = goals;
     _players.add(matchPlayers);
   }
-
 }
