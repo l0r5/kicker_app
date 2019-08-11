@@ -49,47 +49,44 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                        padding: EdgeInsets.fromLTRB(10,15,10,15),
-                        margin: EdgeInsets.fromLTRB(10,15,10,15),
+                        padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
+                        margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
                         width: 160,
                         decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.8),
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10))),
-                        alignment: Alignment.topLeft,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
                               'Team 1',
                               style: TextStyle(
                                   fontSize: 28, fontWeight: FontWeight.w300),
                             ),
-                            Text('Player 1: ${match.getPlayerName(1)}',
-                            style: Theme.of(context).textTheme.body2,),
-                            Text('Player 2: ${match.getPlayerName(2)}',
-                              style: Theme.of(context).textTheme.body2,)
+                            Text('${match.getPlayerName(1)}'),
+                            Text('${match.getPlayerName(2)}')
                           ],
                         )),
                     Container(
-                        padding: EdgeInsets.fromLTRB(10,15,10,15),
-                        margin: EdgeInsets.fromLTRB(10,15,10,15),
+                        padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
+                        margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
                         width: 160,
                         decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.8),
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10))),
-                        alignment: Alignment.topLeft,
-                        child: Column(children: <Widget>[
-                          Text(
-                            'Team 2',
-                            style: TextStyle(
-                                fontSize: 28, fontWeight: FontWeight.w300),
-                          ),
-                          Text('Player 3: ${match.getPlayerName(3)}',
-                            style: Theme.of(context).textTheme.body2,),
-                          Text('Player 4: ${match.getPlayerName(4)}',
-                            style: Theme.of(context).textTheme.body2,)
-                        ]))
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'Team 2',
+                                style: TextStyle(
+                                    fontSize: 28, fontWeight: FontWeight.w300),
+                              ),
+                              Text('${match.getPlayerName(3)}'),
+                              Text('${match.getPlayerName(4)}')
+                            ]))
                   ])),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -99,14 +96,14 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                      margin: EdgeInsets.fromLTRB(10,15,10,15),
+                      margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
                       child: ChoosePlayerButton(
                         playerNumber: 1,
                         availablePlayers: lobby.usersOnlineList,
                         notifyParent: refresh,
                       )),
                   Container(
-                      margin: EdgeInsets.fromLTRB(10,15,10,15),
+                      margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
                       child: ChoosePlayerButton(
                         playerNumber: 3,
                         availablePlayers: lobby.usersOnlineList,
@@ -119,14 +116,14 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                      margin: EdgeInsets.fromLTRB(10,15,10,15),
+                      margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
                       child: ChoosePlayerButton(
                         playerNumber: 2,
                         availablePlayers: lobby.usersOnlineList,
                         notifyParent: refresh,
                       )),
                   Container(
-                    margin: EdgeInsets.fromLTRB(10,15,10,15),
+                    margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
                     child: ChoosePlayerButton(
                       playerNumber: 4,
                       availablePlayers: lobby.usersOnlineList,
@@ -146,15 +143,14 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                   padding: EdgeInsets.all(15),
                   child: Center(
                     child: RaisedButton.icon(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MatchScreen()));
-                      },
-                      label: Text('Start'),
-                      icon: Icon(Icons.directions_run)
-                    ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MatchScreen()));
+                        },
+                        label: Text('Start'),
+                        icon: Icon(Icons.directions_run)),
                   ))),
         ]));
   }
