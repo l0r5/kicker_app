@@ -17,7 +17,7 @@ class ResultCard extends StatelessWidget {
         margin: EdgeInsets.all(5),
         elevation: 5,
         child: Container(
-            width: (MediaQuery.of(context).size.width / 2) - 30,
+            width: MediaQuery.of(context).size.width - 40,
             height: heightSize,
             alignment: Alignment.topLeft,
             child: Stack(

@@ -79,8 +79,6 @@ class ResultScreen extends StatelessWidget {
                             title: 'Most Valuable Player',
                             body: Text('PlayerName'),
                           ),
-                        ]),
-                        Column(children: <Widget>[
                           ResultCard(
                               title: 'All Goals',
                               heightSize: RESULT_CARD_HEIGHT_SIZE_L,
