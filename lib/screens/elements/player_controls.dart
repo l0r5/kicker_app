@@ -61,7 +61,7 @@ class _PlayerControlsState extends State<PlayerControls> {
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.8),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+            borderRadius: BorderRadius.all(Radius.circular(30))),
         child: Stack(
           children: <Widget>[
             Positioned(
