@@ -76,6 +76,10 @@ class _RegisterFormState extends State<RegisterForm> {
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please enter some text';
+              } else {
+                if(value.length > 16) {
+                  return 'The maximum character length is 16';
+                }
               }
             },
             onSaved: (value) {
