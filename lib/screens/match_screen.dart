@@ -46,7 +46,7 @@ class _MatchScreenState extends State<MatchScreen> {
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               child: Center(
                   child: Text(
-                'Team1   ${match.getTeamGoalsByTeamNumber(1).toString()}  :  ${match.getTeamGoalsByTeamNumber(2).toString()}   Team2',
+                "Team1   ${match.getTeamGoalsByTeamNumber(1).toString()}  :  ${match.getTeamGoalsByTeamNumber(2).toString()}   Team2",
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.w300),
               )),
             ),

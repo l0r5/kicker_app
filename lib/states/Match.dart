@@ -17,7 +17,7 @@ class Match {
   }
 
   _initPlayers() {
-    _players.add(
+    _players = BehaviorSubject.seeded(
       {
         1: {'playerName': 'not set', 'playerGoals': 0},
         2: {'playerName': 'not set', 'playerGoals': 0},
@@ -64,17 +64,20 @@ class Match {
   }
 
   getTeamGoalsByTeamNumber(int teamNumber) {
-    Map matchPlayers = players;
-    if (matchPlayers == null) {
+    if (players == null) {
       _initPlayers();
     }
+    int player1 = players[1]['playerGoals'];
+    int player2 = players[2]['playerGoals'];
+    int player3 = players[3]['playerGoals'];
+    int player4 = players[4]['playerGoals'];
     switch (teamNumber) {
       case 1:
-        return matchPlayers[1]['playerGoals'] + matchPlayers[2]['playerGoals'];
+        return  player1+player2;
       case 2:
-        return matchPlayers[3]['playerGoals'] + matchPlayers[4]['playerGoals'];
+        return player3+player4;
       default:
-        return 'Error';
+        return 1;
     }
   }
 
@@ -92,7 +95,7 @@ class Match {
       _initPlayers();
     }
     matchPlayers[playerNumber]['playerGoals'] = goals;
-    _players.add(matchPlayers[playerNumber]['playerGoals']);
+    _players.add(matchPlayers);
   }
 
 }
