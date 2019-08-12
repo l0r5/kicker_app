@@ -15,9 +15,9 @@ class LobbyListView extends StatelessWidget {
         return ListTile(
           dense: true,
           contentPadding: EdgeInsets.all(1),
-          leading: Icon(Icons.language),
+          leading: items[index]['isLoggedIn'] ? Icon(Icons.language) : Text(''),
           title: Text(
-          '${items[index]}',
+          '${items[index]['username']}',
           ),
         );
       },

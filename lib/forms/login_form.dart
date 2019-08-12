@@ -18,7 +18,6 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final user = getIt.get<User>();
   final lobby = getIt.get<Lobby>();
-
   final BaseAuthenticationService authenticationService =
       getIt.get<AuthenticationService>();
   String _validationMessage = '';
@@ -33,13 +32,7 @@ class _LoginFormState extends State<LoginForm> {
           .then((userId) async {
         print('Authenticated: $userId');
         _updateUserData(userId);
-        //update local lobby then go to home page
-        //TODO add user to lobby
-//        lobbyService.addOnlineUser(user.email).then((onlineUsers) {
-//          lobby.setUsersOnline(onlineUsers);
-//        });
         Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
-
       });
     } on Exception catch (error) {
       if (error.toString().contains('ERROR_INVALID_EMAIL')) {
@@ -49,6 +42,11 @@ class _LoginFormState extends State<LoginForm> {
       } else if (error.toString().contains('ERROR_WRONG_PASSWORD')) {
         setState(() {
           _validationMessage = 'Wrong Password';
+        });
+      } else if (error.toString().contains('ERROR_USER_NOT_FOUND')) {
+        setState(() {
+          _validationMessage =
+              'There is no user record corresponding to this identifer. Please register first';
         });
       } else {
         setState(() {
@@ -60,15 +58,12 @@ class _LoginFormState extends State<LoginForm> {
 
   _updateUserData(String userId) {
     user.setUid(userId);
-    var storedUsername;
-    Firestore.instance
-        .collection('users')
-        .where('uid', isEqualTo: userId)
-        .snapshots()
-        .listen((data) =>
-            data.documents.forEach((doc) => user.setUsername(doc['username'])));
     user.setEmail(_email);
     user.setIsLoggedIn(true);
+    Firestore.instance
+        .collection('users')
+        .document(userId)
+        .updateData({'isLoggedIn': true});
   }
 
   @override

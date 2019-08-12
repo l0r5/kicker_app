@@ -1,15 +1,36 @@
 import 'package:rxdart/rxdart.dart';
 
 class Lobby {
-  BehaviorSubject _usersOnline = BehaviorSubject.seeded([]);
+  BehaviorSubject _lobbyUsers = BehaviorSubject.seeded([]);
 
-  List<String> get usersOnline => _usersOnline.value;
-
-  reset() {
-    _usersOnline = BehaviorSubject.seeded([]);
+  List get lobbyUsers => _lobbyUsers.value;
+  List<String> get getLobbyUserNames {
+    List<String> usernames = [];
+    lobbyUsers.forEach((user) =>
+      usernames.add(user['username'])
+    );
+    return usernames;
   }
 
-  setUsersOnline(List<String> usersOnline) {
-        _usersOnline.add(usersOnline);
+  reset() {
+    _lobbyUsers = BehaviorSubject.seeded([]);
+  }
+
+  addUser(Map<String, Object> user) {
+    List currentLobbyUsers = lobbyUsers;
+    if (lobbyUsers == null || lobbyUsers.length == 0) {
+      reset();
+      currentLobbyUsers = [user];
+    }
+    int occurrences = 0;
+    currentLobbyUsers.forEach((existingUser) {
+      if (existingUser['username'] == user['username']) {
+        occurrences++;
+      }
+    });
+    if (occurrences == 0) {
+      currentLobbyUsers.add(user);
+    }
+    _lobbyUsers.add(currentLobbyUsers);
   }
 }

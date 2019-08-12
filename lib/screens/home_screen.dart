@@ -21,29 +21,31 @@ class _HomeScreenState extends State<HomeScreen> {
   final BaseAuthenticationService authenticationService =
       getIt.get<AuthenticationService>();
 
-  _updateLobby() {
-    //TODO get users from lobby
-//    await lobbyService.getOnlineUsers().then((onlineUsers) {
-//      List<String> usernames;
-//      Firestore.instance
-//          .collection('users')
-//          .snapshots()
-//          .listen((data) =>
-//          data.documents.forEach((doc) => usernames = (doc['username'])));
-//      lobby.setUsersOnline(usernames);
-    print('Local Lobby Online Users:');
-    lobby.usersOnline
-        .forEach((user) => (print('Local Lobby Online Users:$user')));
+  _updateLobby() async {
+    List<String> storedUsers = [];
+    await Firestore.instance.collection('users').getDocuments().then((users) {
+      users.documents.forEach((document) {
+        String uid = document.data['uid'];
+        var username = document.data['username'];
+        var email = document.data['email'];
+        var isLoggedIn = document.data['isLoggedIn'];
+        Map<String, Object> user = {
+          'uid': uid,
+          'username': username,
+          'email': email,
+          'isLoggedIn': isLoggedIn
+        };
+        lobby.addUser(user);
+      });
+    });
     setState(() {});
   }
 
   _quitLobbySession() async {
-    //TODO remove user from lobby
-//    await lobbyService.removeOnlineUser(user.email).then((onlineUsers) {
-//      print('Local Lobby Online Users:');
-//      lobby.usersOnline.forEach((user) => print('$user'));
-//      print('Local Lobby Online Users: ${lobby.usersOnline}');
-//    });
+    await Firestore.instance
+        .collection('users')
+        .document(user.uid)
+        .updateData({'isLoggedIn': false});
   }
 
   @override
@@ -69,10 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 print('Logging out ${user.email}');
                 authenticationService.signOut();
-                Firestore.instance
-                    .collection('users')
-                    .document(user.uid)
-                    .updateData({'isLoggedIn': false});
                 _quitLobbySession();
                 _resetGlobalStates();
                 Navigator.pushReplacementNamed(context, globals.ROUTE_LOGIN);
@@ -146,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   child: LobbyListView(
                                     context: context,
-                                    items: lobby.usersOnline,
+                                    items: lobby.lobbyUsers,
                                   ),
                                 ),
                                 Padding(

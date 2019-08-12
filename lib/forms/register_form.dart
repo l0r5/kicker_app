@@ -33,7 +33,6 @@ class _RegisterFormState extends State<RegisterForm> {
         auth.sendEmailVerification();
         _showVerifyEmailSentDialog();
         _saveUser(userId);
-        _updateLobby();
       });
     } on Exception catch (e) {
       if (e.toString().contains('ERROR_INVALID_EMAIL')) {
@@ -49,18 +48,11 @@ class _RegisterFormState extends State<RegisterForm> {
     }
   }
 
-  _updateLobby() async {
-    // TODO addOnlineUser
-//    await lobbyService.addOnlineUser(user.username).then((onlineUsers) {
-//      lobby.setUsersOnline(onlineUsers);
-//    });
-  }
-
   _saveUser(String userId) {
     user.setUsername(_username);
     user.setEmail(_email);
     user.setIsLoggedIn(true);
-    Firestore.instance.collection('users').document().setData({
+    Firestore.instance.collection('users').document(userId).setData({
       'uid': userId,
       'email': _email,
       'username': _username,
