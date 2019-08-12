@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kicker_app/services/authentication_service.dart';
-import 'package:kicker_app/services/lobby_service.dart';
 import 'package:kicker_app/states/Lobby.dart';
 import '../main.dart';
 import '../states/User.dart';
@@ -18,36 +18,52 @@ class _RegisterFormState extends State<RegisterForm> {
   final user = getIt.get<User>();
   final lobby = getIt.get<Lobby>();
   final BaseAuthenticationService auth = getIt.get<AuthenticationService>();
-  final BaseLobbyService lobbyService = getIt.get<LobbyService>();
 
+  String _username;
   String _email;
   String _password;
   String _passwordConfirmed;
   String _validationMessage = '';
 
-  void _register() async {
+  _register() async {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Register...')));
-    await auth.signUp(_email, _password).then((userId) {
-      print('Signed up: $userId');
-      auth.sendEmailVerification();
-      _showVerifyEmailSentDialog();
-      user.setEmail(_email);
-      user.setIsLoggedIn(true);
-      _updateLobby();
+    try {
+      await auth.signUp(_email, _password).then((userId) {
+        print('Authenticated: $userId');
+        auth.sendEmailVerification();
+        _showVerifyEmailSentDialog();
+        _saveUser(userId);
+      });
+    } on Exception catch (e) {
+      if (e.toString().contains('ERROR_INVALID_EMAIL')) {
+        _validationMessage =
+            'Please enter a valid email format, e.g.: xyz@zxy.com';
+      } else if (e.toString().contains('ERROR_EMAIL_ALREADY_IN_USE')) {
+        _validationMessage =
+            'The email address is already in use by another account';
+      } else {
+        _validationMessage = e.toString();
+      }
+      setState(() {});
+    }
+  }
+
+  _saveUser(String userId) {
+    user.setUsername(_username);
+    user.setEmail(_email);
+    user.setIsLoggedIn(true);
+    Firestore.instance.collection('users').document(userId).setData({
+      'uid': userId,
+      'email': _email,
+      'username': _username,
+      'isLoggedIn': true,
     });
   }
 
-  _updateLobby() async {
-    await lobbyService.addOnlineUser(user.email).then((onlineUsers) {
-        lobby.setUsersOnline(onlineUsers);
-    });
-  }
-
-  void _showVerifyEmailSentDialog() {
+  _showVerifyEmailSentDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // return object of type Dialog
         return AlertDialog(
           title: new Text("Verify your account"),
           content:
@@ -70,6 +86,21 @@ class _RegisterFormState extends State<RegisterForm> {
     return Form(
         key: _formKey,
         child: Column(children: <Widget>[
+          TextFormField(
+            decoration: InputDecoration(hintText: 'Username'),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              } else {
+                if (value.length > 16) {
+                  return 'The maximum character length is 16';
+                }
+              }
+            },
+            onSaved: (value) {
+              _username = value;
+            },
+          ),
           TextFormField(
             decoration: InputDecoration(hintText: 'E-Mail'),
             validator: (value) {

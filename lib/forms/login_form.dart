@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kicker_app/screens/register_screen.dart';
 import 'package:kicker_app/services/authentication_service.dart';
-import 'package:kicker_app/services/lobby_service.dart';
 import 'package:kicker_app/states/Lobby.dart';
 import '../main.dart';
 import '../states/User.dart';
@@ -19,10 +18,8 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final user = getIt.get<User>();
   final lobby = getIt.get<Lobby>();
-
   final BaseAuthenticationService authenticationService =
       getIt.get<AuthenticationService>();
-  final BaseLobbyService lobbyService = getIt.get<LobbyService>();
   String _validationMessage = '';
   String _email;
   String _password;
@@ -30,14 +27,12 @@ class _LoginFormState extends State<LoginForm> {
   _logIn() async {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Logging in...')));
     try {
-      await authenticationService.signIn(_email, _password).then((userId) async {
-        print('Signed in: $userId');
+      await authenticationService
+          .signIn(_email, _password)
+          .then((userId) async {
+        print('Authenticated: $userId');
         _updateUserData(userId);
-        //update local lobby then go to home page
-        lobbyService.addOnlineUser(user.email).then((onlineUsers) {
-          lobby.setUsersOnline(onlineUsers);
-          Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
-        });
+        Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
       });
     } on Exception catch (error) {
       if (error.toString().contains('ERROR_INVALID_EMAIL')) {
@@ -47,6 +42,11 @@ class _LoginFormState extends State<LoginForm> {
       } else if (error.toString().contains('ERROR_WRONG_PASSWORD')) {
         setState(() {
           _validationMessage = 'Wrong Password';
+        });
+      } else if (error.toString().contains('ERROR_USER_NOT_FOUND')) {
+        setState(() {
+          _validationMessage =
+              'There is no user record corresponding to this identifer. Please register first';
         });
       } else {
         setState(() {
@@ -60,11 +60,10 @@ class _LoginFormState extends State<LoginForm> {
     user.setUid(userId);
     user.setEmail(_email);
     user.setIsLoggedIn(true);
-    Firestore.instance.collection('users').document(userId).setData({
-      'uid': userId,
-      'email': _email,
-      'isLoggedIn': true,
-    });
+    Firestore.instance
+        .collection('users')
+        .document(userId)
+        .updateData({'isLoggedIn': true});
   }
 
   @override

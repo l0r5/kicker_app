@@ -1,39 +1,51 @@
 import 'package:rxdart/rxdart.dart';
 
 class Lobby {
-  BehaviorSubject _usersOnline = BehaviorSubject.seeded(null);
+  BehaviorSubject _lobbyUsers = BehaviorSubject.seeded([]);
 
-  String get usersOnline => _usersOnline.value;
+  List get lobbyUsers => _lobbyUsers.value;
 
-  List<String> get usersOnlineList {
-    if (usersOnline == null) {
-      return [];
+  List get lobbyUsersSortedLoggedIn {
+    List currentLobbyUsers = lobbyUsers;
+    int index = 0;
+    List onlineUsers = [];
+    List offlineUsers = [];
+    for(var user in currentLobbyUsers) {
+      if(user['isLoggedIn']) {
+        onlineUsers.add(currentLobbyUsers[index]);
+      } else {
+        offlineUsers.add(currentLobbyUsers[index]);
+      }
+      index++;
     }
-    String userString = _usersOnline.value;
-    if (userString.contains(',')) {
-      return userString.split(',');
-    } else {
-      return [userString];
-    }
+    return onlineUsers + offlineUsers;
   }
 
-  setUsersOnline(List<String> usersOnline) {
-    try {
-      String resultString = '';
-      usersOnline.forEach((user) => resultString += '$user,');
-      resultString = resultString.substring(0, resultString.length - 1);
-      if (_usersOnline.value == null) {
-        _usersOnline = BehaviorSubject.seeded(resultString);
-      } else {
-        usersOnline.add(resultString);
-      }
-    } on Exception catch (error) {
-      print(error);
-    }
-
+  List<String> get getLobbyUserNames {
+    List<String> usernames = [];
+    lobbyUsers.forEach((user) => usernames.add(user['username']));
+    return usernames;
   }
 
   reset() {
-    _usersOnline = BehaviorSubject.seeded(null);
+    _lobbyUsers = BehaviorSubject.seeded([]);
+  }
+
+  addUser(Map<String, Object> user) {
+    List currentLobbyUsers = lobbyUsers;
+    if (lobbyUsers == null || lobbyUsers.length == 0) {
+      reset();
+      currentLobbyUsers = [user];
+    }
+    int occurrences = 0;
+    currentLobbyUsers.forEach((existingUser) {
+      if (existingUser['username'] == user['username']) {
+        occurrences++;
+      }
+    });
+    if (occurrences == 0) {
+      currentLobbyUsers.add(user);
+    }
+    _lobbyUsers.add(currentLobbyUsers);
   }
 }

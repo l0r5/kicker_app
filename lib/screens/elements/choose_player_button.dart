@@ -52,7 +52,7 @@ class _ChoosePlayerButtonState extends State<ChoosePlayerButton> {
                 onChanged: (String newValue) {
                   setState(() {
                     _dropdownValue = newValue;
-                    match.setPlayerName(widget.playerNumber, newValue);
+                    match.setPlayer(widget.playerNumber, newValue);
                     widget.notifyParent();
                   });
                 },

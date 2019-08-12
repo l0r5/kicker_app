@@ -46,7 +46,7 @@ class _MatchScreenState extends State<MatchScreen> {
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               child: Center(
                   child: Text(
-                'Team1   ${match.team1Goals}  :  ${match.team2Goals}   Team2',
+                "Team1   ${match.getTeamGoals(1).toString()}  :  ${match.getTeamGoals(2).toString()}   Team2",
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.w300),
               )),
             ),
@@ -59,18 +59,18 @@ class _MatchScreenState extends State<MatchScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.fromLTRB(10,15,10,15),
                     child: PlayerControls(
                       playerNumber: 1,
-                      playerName: match.player1Name,
+                      playerName: match.getPlayerName(1),
                       notifyParent: refresh,
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.fromLTRB(10,15,10,15),
                     child: PlayerControls(
                       playerNumber: 3,
-                      playerName: match.player3Name,
+                      playerName: match.getPlayerName(3),
                       notifyParent: refresh,
                     ),
                   )
@@ -81,18 +81,18 @@ class _MatchScreenState extends State<MatchScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.fromLTRB(10,15,10,15),
                     child: PlayerControls(
                       playerNumber: 2,
-                      playerName: match.player2Name,
+                      playerName: match.getPlayerName(2),
                       notifyParent: refresh,
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.fromLTRB(10,15,10,15),
                     child: PlayerControls(
                       playerNumber: 4,
-                      playerName: match.player4Name,
+                      playerName: match.getPlayerName(4),
                       notifyParent: refresh,
                     ),
                   )
@@ -108,14 +108,15 @@ class _MatchScreenState extends State<MatchScreen> {
               margin: EdgeInsets.all(10),
               padding: EdgeInsets.all(15),
               child: Center(
-                child: RaisedButton(
+                child: RaisedButton.icon(
                   onPressed: () {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => ResultScreen()));
                   },
-                  child: Text('Finish'),
+                  label: Text('Finish'),
+                    icon: Icon(Icons.send)
                 ),
               ),
             ),
