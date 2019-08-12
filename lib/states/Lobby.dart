@@ -4,11 +4,26 @@ class Lobby {
   BehaviorSubject _lobbyUsers = BehaviorSubject.seeded([]);
 
   List get lobbyUsers => _lobbyUsers.value;
+
+  List get lobbyUsersSortedLoggedIn {
+    List currentLobbyUsers = lobbyUsers;
+    int index = 0;
+    List onlineUsers = [];
+    List offlineUsers = [];
+    for(var user in currentLobbyUsers) {
+      if(user['isLoggedIn']) {
+        onlineUsers.add(currentLobbyUsers[index]);
+      } else {
+        offlineUsers.add(currentLobbyUsers[index]);
+      }
+      index++;
+    }
+    return onlineUsers + offlineUsers;
+  }
+
   List<String> get getLobbyUserNames {
     List<String> usernames = [];
-    lobbyUsers.forEach((user) =>
-      usernames.add(user['username'])
-    );
+    lobbyUsers.forEach((user) => usernames.add(user['username']));
     return usernames;
   }
 

@@ -41,8 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
-  _quitLobbySession() async {
-    await Firestore.instance
+  _quitLobbySession() {
+    Firestore.instance
         .collection('users')
         .document(user.uid)
         .updateData({'isLoggedIn': false});
@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   child: LobbyListView(
                                     context: context,
-                                    items: lobby.lobbyUsers,
+                                    items: lobby.lobbyUsersSortedLoggedIn,
                                   ),
                                 ),
                                 Padding(
