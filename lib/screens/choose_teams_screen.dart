@@ -99,14 +99,14 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                       margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
                       child: ChoosePlayerButton(
                         playerNumber: 1,
-                        availablePlayers: lobby.usersOnlineList,
+                        availablePlayers: lobby.usersOnline,
                         notifyParent: refresh,
                       )),
                   Container(
                       margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
                       child: ChoosePlayerButton(
                         playerNumber: 3,
-                        availablePlayers: lobby.usersOnlineList,
+                        availablePlayers: lobby.usersOnline,
                         notifyParent: refresh,
                       ))
                 ],
@@ -119,14 +119,14 @@ class _ChooseTeamsScreenState extends State<ChooseTeamsScreen> {
                       margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
                       child: ChoosePlayerButton(
                         playerNumber: 2,
-                        availablePlayers: lobby.usersOnlineList,
+                        availablePlayers: lobby.usersOnline,
                         notifyParent: refresh,
                       )),
                   Container(
                     margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
                     child: ChoosePlayerButton(
                       playerNumber: 4,
-                      availablePlayers: lobby.usersOnlineList,
+                      availablePlayers: lobby.usersOnline,
                       notifyParent: refresh,
                     ),
                   )

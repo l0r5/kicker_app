@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kicker_app/screens/register_screen.dart';
 import 'package:kicker_app/services/authentication_service.dart';
-import 'package:kicker_app/services/lobby_service.dart';
 import 'package:kicker_app/states/Lobby.dart';
 import '../main.dart';
 import '../states/User.dart';
@@ -22,7 +21,6 @@ class _LoginFormState extends State<LoginForm> {
 
   final BaseAuthenticationService authenticationService =
       getIt.get<AuthenticationService>();
-  final BaseLobbyService lobbyService = getIt.get<LobbyService>();
   String _validationMessage = '';
   String _email;
   String _password;
@@ -33,13 +31,15 @@ class _LoginFormState extends State<LoginForm> {
       await authenticationService
           .signIn(_email, _password)
           .then((userId) async {
-        print('Signed in: $userId');
+        print('Authenticated: $userId');
         _updateUserData(userId);
         //update local lobby then go to home page
-        lobbyService.addOnlineUser(user.email).then((onlineUsers) {
-          lobby.setUsersOnline(onlineUsers);
-          Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
-        });
+        //TODO add user to lobby
+//        lobbyService.addOnlineUser(user.email).then((onlineUsers) {
+//          lobby.setUsersOnline(onlineUsers);
+//        });
+        Navigator.pushReplacementNamed(context, globals.ROUTE_HOME);
+
       });
     } on Exception catch (error) {
       if (error.toString().contains('ERROR_INVALID_EMAIL')) {
@@ -60,20 +60,15 @@ class _LoginFormState extends State<LoginForm> {
 
   _updateUserData(String userId) {
     user.setUid(userId);
-
-    var storedUsername = Firestore.instance
+    var storedUsername;
+    Firestore.instance
         .collection('users')
-        .document(userId)
-        .collection('username');
-
-    user.setUsername('$storedUsername');
+        .where('uid', isEqualTo: userId)
+        .snapshots()
+        .listen((data) =>
+            data.documents.forEach((doc) => user.setUsername(doc['username'])));
     user.setEmail(_email);
     user.setIsLoggedIn(true);
-    Firestore.instance.collection('users').document(userId).setData({
-      'uid': userId,
-      'email': _email,
-      'isLoggedIn': true,
-    });
   }
 
   @override

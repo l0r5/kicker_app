@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kicker_app/services/authentication_service.dart';
-import 'package:kicker_app/services/lobby_service.dart';
 import 'package:kicker_app/states/Lobby.dart';
 import '../main.dart';
 import '../states/User.dart';
@@ -18,7 +18,6 @@ class _RegisterFormState extends State<RegisterForm> {
   final user = getIt.get<User>();
   final lobby = getIt.get<Lobby>();
   final BaseAuthenticationService auth = getIt.get<AuthenticationService>();
-  final BaseLobbyService lobbyService = getIt.get<LobbyService>();
 
   String _username;
   String _email;
@@ -30,29 +29,46 @@ class _RegisterFormState extends State<RegisterForm> {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Register...')));
     try {
       await auth.signUp(_email, _password).then((userId) {
-        print('Signed up: $userId');
+        print('Authenticated: $userId');
         auth.sendEmailVerification();
         _showVerifyEmailSentDialog();
-        user.setUsername(_username);
-        user.setEmail(_email);
-        user.setIsLoggedIn(true);
+        _saveUser(userId);
         _updateLobby();
       });
     } on Exception catch (e) {
-      if(e.toString().contains('ERROR_INVALID_EMAIL'))
-      setState(() {
-        _validationMessage = 'Please enter a valid email format, e.g.: xyz@zxy.com';
-      });
+      if (e.toString().contains('ERROR_INVALID_EMAIL')) {
+        _validationMessage =
+            'Please enter a valid email format, e.g.: xyz@zxy.com';
+      } else if (e.toString().contains('ERROR_EMAIL_ALREADY_IN_USE')) {
+        _validationMessage =
+            'The email address is already in use by another account';
+      } else {
+        _validationMessage = e.toString();
+      }
+      setState(() {});
     }
   }
 
   _updateLobby() async {
-    await lobbyService.addOnlineUser(user.username).then((onlineUsers) {
-      lobby.setUsersOnline(onlineUsers);
+    // TODO addOnlineUser
+//    await lobbyService.addOnlineUser(user.username).then((onlineUsers) {
+//      lobby.setUsersOnline(onlineUsers);
+//    });
+  }
+
+  _saveUser(String userId) {
+    user.setUsername(_username);
+    user.setEmail(_email);
+    user.setIsLoggedIn(true);
+    Firestore.instance.collection('users').document().setData({
+      'uid': userId,
+      'email': _email,
+      'username': _username,
+      'isLoggedIn': true,
     });
   }
 
-  void _showVerifyEmailSentDialog() {
+  _showVerifyEmailSentDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kicker_app/services/authentication_service.dart';
-import 'package:kicker_app/services/lobby_service.dart';
 import 'package:kicker_app/utils/consts_utils.dart';
 import '../states/Lobby.dart';
 import '../states/User.dart';
@@ -21,20 +20,30 @@ class _HomeScreenState extends State<HomeScreen> {
   final lobby = getIt.get<Lobby>();
   final BaseAuthenticationService authenticationService =
       getIt.get<AuthenticationService>();
-  final LobbyService lobbyService = getIt.get<LobbyService>();
 
-  _updateLobby() async {
-    await lobbyService.getOnlineUsers().then((onlineUsers) {
-      lobby.setUsersOnline(onlineUsers);
-      print('Local Lobby Online Users: ${lobby.usersOnlineList}');
-      setState(() {});
-    });
+  _updateLobby() {
+    //TODO get users from lobby
+//    await lobbyService.getOnlineUsers().then((onlineUsers) {
+//      List<String> usernames;
+//      Firestore.instance
+//          .collection('users')
+//          .snapshots()
+//          .listen((data) =>
+//          data.documents.forEach((doc) => usernames = (doc['username'])));
+//      lobby.setUsersOnline(usernames);
+    print('Local Lobby Online Users:');
+    lobby.usersOnline
+        .forEach((user) => (print('Local Lobby Online Users:$user')));
+    setState(() {});
   }
 
   _quitLobbySession() async {
-    await lobbyService.removeOnlineUser(user.email).then((onlineUsers) {
-      print('Local Lobby Online Users: ${lobby.usersOnlineList}');
-    });
+    //TODO remove user from lobby
+//    await lobbyService.removeOnlineUser(user.email).then((onlineUsers) {
+//      print('Local Lobby Online Users:');
+//      lobby.usersOnline.forEach((user) => print('$user'));
+//      print('Local Lobby Online Users: ${lobby.usersOnline}');
+//    });
   }
 
   @override
@@ -100,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Container(
                       margin: EdgeInsets.fromLTRB(20, 30, 20, 0),
-                      padding: EdgeInsets.fromLTRB(20,10,20,10),
+                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                       alignment: Alignment.topLeft,
                       decoration: BoxDecoration(
                           color: Color(PRIMARY_COLOR),
@@ -126,7 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           fontWeight: FontWeight.w300,
                                         )),
                                 Container(
-                                  height: MediaQuery.of(context).size.height/3,
+                                  height:
+                                      MediaQuery.of(context).size.height / 3,
                                   margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                                   padding: EdgeInsets.all(10),
                                   decoration: BoxDecoration(
@@ -136,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   child: LobbyListView(
                                     context: context,
-                                    items: lobby.usersOnlineList,
+                                    items: lobby.usersOnline,
                                   ),
                                 ),
                                 Padding(
