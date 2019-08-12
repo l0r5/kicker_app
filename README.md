@@ -29,7 +29,19 @@ Update packages (dependencies)
     
     $ flutter packages get
  
+ 
 ### Mockups
 
 [Dropbox Link](https://www.dropbox.com/s/27a31vgcf1lvjmw/WohnheimApp%20Mockup.pdf?dl=0)
 
+### Release
+
+Create a keystore using
+
+    $ keytool -genkey -v -keystore ~/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key
+    
+Save the file under /android/app and replace the android/key.properties with your own values
+
+ Create a releasable build
+    
+    $ flutter build appbundle

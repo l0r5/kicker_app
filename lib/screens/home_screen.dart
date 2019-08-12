@@ -41,8 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
-  _quitLobbySession() {
-    Firestore.instance
+  _quitLobbySession() async {
+    await Firestore.instance
         .collection('users')
         .document(user.uid)
         .updateData({'isLoggedIn': false});
