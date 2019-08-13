@@ -73,6 +73,8 @@ class _LoginFormState extends State<LoginForm> {
         child: Column(children: <Widget>[
           TextFormField(
             decoration: InputDecoration(hintText: "Email"),
+            //TODO remove
+            initialValue: 'lars-braitinger@web.de',
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please enter some text';
@@ -90,6 +92,8 @@ class _LoginFormState extends State<LoginForm> {
                 return 'Please enter some password';
               }
             },
+            //TODO remove
+            initialValue: 'asdasd',
             onSaved: (value) {
               _password = value;
             },

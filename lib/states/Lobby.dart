@@ -38,13 +38,18 @@ class Lobby {
       currentLobbyUsers = [user];
     }
     int occurrences = 0;
+    int occurrenceIndex;
     currentLobbyUsers.forEach((existingUser) {
       if (existingUser['username'] == user['username']) {
+        existingUser['isLoggedIn'] = user['isLoggedIn'];
         occurrences++;
+        occurrenceIndex = currentLobbyUsers.indexOf(existingUser);
       }
     });
     if (occurrences == 0) {
       currentLobbyUsers.add(user);
+    } else {
+      currentLobbyUsers[occurrenceIndex] = user;
     }
     _lobbyUsers.add(currentLobbyUsers);
   }
